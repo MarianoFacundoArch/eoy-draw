@@ -208,13 +208,13 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
         </motion.div>
 
         {/* Slot machine display */}
-        <div className="relative w-[750px] max-w-[95vw] h-[320px] mx-auto" style={{ marginBottom: '5rem' }}>
+        <div className="relative w-[750px] max-w-[95vw] h-[380px] mx-auto" style={{ marginBottom: '5rem' }}>
           {/* Decorative frame */}
           <div className="absolute inset-0 border-4 border-yellow-500/40 rounded-2xl glow-gold" />
           <div className="absolute inset-2 border-2 border-yellow-500/20 rounded-xl" />
 
           {/* Center highlight bar */}
-          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-40 bg-yellow-500/10 border-y-2 border-yellow-500/30 pointer-events-none z-10" />
+          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-52 bg-yellow-500/10 border-y-2 border-yellow-500/30 pointer-events-none z-10" />
 
           {/* Prize display */}
           <div className="absolute inset-4 overflow-hidden rounded-lg bg-slate-900/90">
@@ -288,6 +288,9 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
                     <span className="text-7xl block mb-3">{winningPrize.emoji}</span>
                     <p className="text-4xl font-bold text-gold-gradient text-glow winner-reveal mb-3">
                       {winningPrize.name}
+                    </p>
+                    <p className="text-2xl text-green-400 font-bold mb-2">
+                      Valor: {winningPrize.value}
                     </p>
                     <div className="flex items-center justify-center gap-3">
                       <span className={`px-4 py-1.5 rounded-full text-sm font-bold uppercase ${getTierStyle(winningPrize.tier)}`}>

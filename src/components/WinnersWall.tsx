@@ -122,6 +122,9 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
           <p className={`text-sm font-bold bg-gradient-to-r ${tierColors[winner.prizeType.tier]} bg-clip-text text-transparent truncate`}>
             {winner.prizeType.name}
           </p>
+          <p className="text-sm text-green-400 font-semibold">
+            {winner.prizeType.value}
+          </p>
         </div>
       </div>
     </motion.div>
