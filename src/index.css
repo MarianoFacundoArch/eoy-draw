@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Playfair+Display:wght@700;800;900&display=swap');
 
 :root {
-  --gold: #FFD700;
-  --gold-dark: #B8860B;
-  --navy-dark: #0a0a14;
-  --navy: #12121f;
+  --gold: #F59E0B;
+  --gold-bright: #FBBF24;
+  --gold-dark: #D97706;
+  --bg-black: #000000;
+  --bg-dark: #0a0a0a;
 }
 
 * {
@@ -15,9 +16,11 @@
   box-sizing: border-box;
 }
 
+/* CAMERA-OPTIMIZED: Solid black background for maximum contrast */
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #0a0a14 0%, #12121f 50%, #0a0a14 100%);
+  font-weight: 700;
+  background: #000000;
   min-height: 100vh;
   overflow-x: hidden;
   color: white;
@@ -27,34 +30,34 @@ body {
   font-family: 'Playfair Display', serif;
 }
 
-/* Gold gradient text */
+/* CAMERA-OPTIMIZED: Vibrant gold text with high visibility */
 .text-gold-gradient {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 50%, #FBBF24 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Glowing effects */
+/* CAMERA-OPTIMIZED: Solid thick glow borders instead of subtle shadows */
 .glow-gold {
   box-shadow:
-    0 0 20px rgba(255, 215, 0, 0.4),
-    0 0 40px rgba(255, 215, 0, 0.2),
-    0 0 60px rgba(255, 215, 0, 0.1);
+    0 0 0 4px rgba(251, 191, 36, 0.8),
+    0 0 40px rgba(251, 191, 36, 0.6);
 }
 
 .glow-gold-intense {
   box-shadow:
-    0 0 30px rgba(255, 215, 0, 0.6),
-    0 0 60px rgba(255, 215, 0, 0.4),
-    0 0 90px rgba(255, 215, 0, 0.2);
+    0 0 0 6px rgba(251, 191, 36, 1),
+    0 0 60px rgba(251, 191, 36, 0.8),
+    0 0 100px rgba(251, 191, 36, 0.5);
 }
 
+/* CAMERA-OPTIMIZED: Strong text glow for headlines */
 .text-glow {
   text-shadow:
-    0 0 10px rgba(255, 215, 0, 0.8),
-    0 0 20px rgba(255, 215, 0, 0.6),
-    0 0 30px rgba(255, 215, 0, 0.4);
+    0 0 20px rgba(251, 191, 36, 1),
+    0 0 40px rgba(251, 191, 36, 0.8),
+    0 0 60px rgba(251, 191, 36, 0.6);
 }
 
 /* Slot machine reel effect */
@@ -62,38 +65,33 @@ body {
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    black 20%,
-    black 80%,
+    black 15%,
+    black 85%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    black 20%,
-    black 80%,
+    black 15%,
+    black 85%,
     transparent 100%
   );
 }
 
-/* Screen shake */
+/* Screen shake - slightly reduced for camera */
 @keyframes screen-shake {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  10% { transform: translate(-2px, -2px) rotate(-0.5deg); }
-  20% { transform: translate(2px, -2px) rotate(0.5deg); }
-  30% { transform: translate(-2px, 2px) rotate(0deg); }
-  40% { transform: translate(2px, 2px) rotate(0.5deg); }
-  50% { transform: translate(-2px, -2px) rotate(-0.5deg); }
-  60% { transform: translate(2px, -2px) rotate(0deg); }
-  70% { transform: translate(-2px, 2px) rotate(-0.5deg); }
-  80% { transform: translate(2px, 2px) rotate(0.5deg); }
-  90% { transform: translate(-2px, -2px) rotate(0deg); }
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-4px, -4px); }
+  40% { transform: translate(4px, -4px); }
+  60% { transform: translate(-4px, 4px); }
+  80% { transform: translate(4px, 4px); }
 }
 
 .shake {
-  animation: screen-shake 0.6s ease-in-out;
+  animation: screen-shake 0.5s ease-in-out;
 }
 
-/* Background particles */
+/* Background particles - keep but reduce intensity */
 .bg-particles {
   position: fixed;
   inset: 0;
@@ -101,44 +99,49 @@ body {
   z-index: 0;
 }
 
-/* Button styles */
+/* CAMERA-OPTIMIZED: Large, high-contrast button */
 .btn-gold {
-  padding: 1rem 2rem;
-  background: linear-gradient(to right, #eab308, #facc15, #eab308);
-  color: #78350f;
-  font-weight: bold;
-  border-radius: 0.5rem;
+  padding: 2rem 4rem;
+  background: linear-gradient(to right, #F59E0B, #FBBF24, #F59E0B);
+  color: #000000;
+  font-weight: 900;
+  font-size: 2rem;
+  border-radius: 1rem;
+  border: 4px solid #FBBF24;
   transform: scale(1);
   transition: all 0.2s;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  box-shadow:
+    0 0 0 4px rgba(251, 191, 36, 0.5),
+    0 8px 30px rgba(251, 191, 36, 0.6);
 }
 
 .btn-gold:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6);
+  box-shadow:
+    0 0 0 6px rgba(251, 191, 36, 0.7),
+    0 10px 40px rgba(251, 191, 36, 0.8);
 }
 
 .btn-gold:active {
-  transform: scale(0.95);
+  transform: scale(0.98);
 }
 
-/* Prize card */
+/* CAMERA-OPTIMIZED: Prize card with solid background and thick border */
 .prize-card {
   position: relative;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(234, 179, 8, 0.3);
-  background: linear-gradient(to bottom right, rgba(17, 24, 39, 0.8), rgba(3, 7, 18, 0.8));
-  backdrop-filter: blur(4px);
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 4px solid rgba(251, 191, 36, 0.6);
+  background: #111111;
 }
 
 .prize-card::before {
   content: '';
   position: absolute;
-  inset: -1px;
+  inset: -4px;
   border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), transparent, rgba(255, 215, 0, 0.3));
+  padding: 4px;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.6), transparent, rgba(251, 191, 36, 0.6));
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: xor;
@@ -146,26 +149,26 @@ body {
   pointer-events: none;
 }
 
-/* Winner reveal animation */
+/* Winner reveal animation - slower for camera */
 @keyframes winner-pop {
   0% { transform: scale(0); opacity: 0; }
-  50% { transform: scale(1.2); }
-  70% { transform: scale(0.9); }
+  60% { transform: scale(1.15); }
+  80% { transform: scale(0.95); }
   100% { transform: scale(1); opacity: 1; }
 }
 
 .winner-reveal {
-  animation: winner-pop 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  animation: winner-pop 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
 
-/* Heartbeat effect */
+/* Heartbeat effect - slower for camera */
 @keyframes heartbeat {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  50% { transform: scale(1.08); }
 }
 
 .heartbeat {
-  animation: heartbeat 0.5s ease-in-out infinite;
+  animation: heartbeat 0.8s ease-in-out infinite;
 }
 
 /* Flash effect */
@@ -176,5 +179,17 @@ body {
 }
 
 .flash-overlay {
-  animation: flash 0.3s ease-out;
+  animation: flash 0.4s ease-out;
 }
+
+/* CAMERA-OPTIMIZED: Base text sizes much larger */
+.camera-text-xs { font-size: 1.25rem; line-height: 1.5; font-weight: 700; }
+.camera-text-sm { font-size: 1.5rem; line-height: 1.5; font-weight: 700; }
+.camera-text-base { font-size: 1.75rem; line-height: 1.4; font-weight: 700; }
+.camera-text-lg { font-size: 2rem; line-height: 1.4; font-weight: 800; }
+.camera-text-xl { font-size: 2.5rem; line-height: 1.3; font-weight: 800; }
+.camera-text-2xl { font-size: 3rem; line-height: 1.3; font-weight: 800; }
+.camera-text-3xl { font-size: 3.5rem; line-height: 1.2; font-weight: 900; }
+.camera-text-4xl { font-size: 4.5rem; line-height: 1.2; font-weight: 900; }
+.camera-text-5xl { font-size: 6rem; line-height: 1.1; font-weight: 900; }
+.camera-text-giant { font-size: 8rem; line-height: 1; font-weight: 900; }

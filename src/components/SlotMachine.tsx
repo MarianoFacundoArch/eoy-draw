@@ -22,10 +22,8 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
   const intervalRef = useRef<number | null>(null);
   const { play, stopAll, fadeOut } = useSound();
 
-  // Create a shuffled list for the reel
   const shuffledPrizes = useRef<PrizeType[]>([]);
 
-  // Shuffle array helper
   const shuffle = <T,>(array: T[]): T[] => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -35,15 +33,9 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
     return shuffled;
   };
 
-  // Select prize using weighted random selection based on probabilities
   const selectWinningPrize = useCallback(() => {
-    // Calculate total probability from available prizes (for normalization if member has restricted eligibility)
     const totalProbability = availablePrizeTypes.reduce((sum, prize) => sum + prize.probability, 0);
-
-    // Generate random number between 0 and total probability
     const random = Math.random() * totalProbability;
-
-    // Select prize based on cumulative probability
     let cumulative = 0;
     for (const prize of availablePrizeTypes) {
       cumulative += prize.probability;
@@ -51,19 +43,15 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
         return prize;
       }
     }
-
-    // Fallback to last prize (should never reach here, but safety)
     return availablePrizeTypes[availablePrizeTypes.length - 1];
   }, [availablePrizeTypes]);
 
-  // Start the drawing
   const startDrawing = useCallback(() => {
     if (phase !== 'idle') return;
 
     const selectedPrize = selectWinningPrize();
     setWinningPrize(selectedPrize);
 
-    // Shuffle prizes and ensure winner is somewhere in the middle-end
     const shuffled = shuffle(availablePrizeTypes.filter(p => p.id !== selectedPrize.id));
     const insertIndex = Math.floor(shuffled.length * 0.7) + Math.floor(Math.random() * (shuffled.length * 0.3));
     shuffled.splice(insertIndex, 0, selectedPrize);
@@ -72,14 +60,13 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
     setPhase('building');
     play('drumroll', { loop: true, volume: 0.5 });
 
-    // Building phase - 2 seconds
     setTimeout(() => {
       setPhase('spinning');
       fadeOut('drumroll', 500);
       play('suspense', { loop: true, volume: 0.4 });
 
       let currentIndex = 0;
-      let speed = 50; // Start fast
+      let speed = 50;
       const totalPrizes = shuffledPrizes.current.length;
       const winnerIndex = shuffledPrizes.current.findIndex(p => p.id === selectedPrize.id);
 
@@ -87,19 +74,13 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
         const prize = shuffledPrizes.current[currentIndex % totalPrizes];
         setCurrentPrize(prize);
         setReelOffset(prev => prev + 1);
-
-        // Play tick on every prize change
         play('tick', { volume: 0.3 });
-
         currentIndex++;
 
-        // Calculate how close we are to the winning prize
         const distanceToWinner = winnerIndex - (currentIndex % totalPrizes);
         const loopsCompleted = Math.floor(currentIndex / totalPrizes);
 
-        // After 2 full loops, start slowing when approaching winner
         if (loopsCompleted >= 2 && distanceToWinner >= 0 && distanceToWinner <= 15) {
-          // Gradually slow down
           const slowdownFactor = 1 + ((15 - distanceToWinner) * 0.3);
           speed = Math.min(50 * slowdownFactor, 800);
 
@@ -108,7 +89,6 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
             speed = 400 + ((3 - distanceToWinner) * 300);
           }
 
-          // Final stop on winner
           if (distanceToWinner === 0) {
             clearInterval(intervalRef.current!);
             setCurrentPrize(selectedPrize);
@@ -117,18 +97,13 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
               setPhase('reveal');
               stopAll();
               setShowFlash(true);
-
-              // Play big explosion sound
               play('boom', { volume: 1.0 });
 
               setTimeout(() => {
                 setShowFlash(false);
                 setShowCelebration(true);
-
-                // Play celebration sounds
                 play('fanfare', { volume: 0.8 });
                 play('cheering', { volume: 0.6 });
-
                 setPhase('celebrating');
               }, 300);
             }, 600);
@@ -136,16 +111,13 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
           }
         }
 
-        // Continue spinning with dynamic speed
         intervalRef.current = window.setTimeout(spin, speed);
       };
 
-      // Start spinning
       spin();
     }, 2000);
   }, [phase, availablePrizeTypes, selectWinningPrize, play, fadeOut, stopAll]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
@@ -155,7 +127,6 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
     };
   }, [stopAll]);
 
-  // Handle completion
   const handleContinue = () => {
     if (winningPrize) {
       stopAll();
@@ -163,23 +134,23 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
     }
   };
 
-  // Get tier styling
+  // CAMERA-OPTIMIZED: High contrast tier styling
   const getTierStyle = (tier: PrizeType['tier']) => {
     switch (tier) {
       case 'grand':
-        return 'text-purple-400 bg-purple-500/20';
+        return 'text-white bg-purple-600 border-purple-400';
       case 'gold':
-        return 'text-yellow-400 bg-yellow-500/20';
+        return 'text-black bg-amber-400 border-amber-300';
       case 'silver':
-        return 'text-gray-300 bg-gray-500/20';
+        return 'text-black bg-gray-300 border-gray-200';
       case 'bronze':
-        return 'text-amber-500 bg-amber-500/20';
+        return 'text-white bg-amber-700 border-amber-500';
     }
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
-      {/* Ambient particles - visible during all phases except celebration */}
+    // CAMERA-OPTIMIZED: Solid black background
+    <div className="fixed inset-0 flex items-center justify-center bg-black overflow-hidden">
       {!showCelebration && (
         <ParticlesBackground key="ambient-stable" variant="ambient" />
       )}
@@ -192,12 +163,12 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 bg-white z-50"
+            className="fixed inset-0 bg-amber-300 z-50"
           />
         )}
       </AnimatePresence>
 
-      {/* Celebration particles - only when celebrating */}
+      {/* Celebration particles */}
       {showCelebration && (
         <>
           <ParticlesBackground variant="winnerBurst" />
@@ -206,33 +177,31 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
         </>
       )}
 
-      {/* Main content */}
-      <div className={`relative z-10 text-center px-8 ${phase === 'reveal' || phase === 'celebrating' ? 'shake' : ''}`}>
+      {/* Main content - CAMERA-OPTIMIZED: Everything massive */}
+      <div className={`relative z-10 text-center px-8 w-full max-w-6xl ${phase === 'reveal' || phase === 'celebrating' ? 'shake' : ''}`}>
 
-        {/* Member display */}
+        {/* CAMERA-OPTIMIZED: Large member display - single line */}
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="text-center"
-          style={{ marginBottom: '5rem' }}
+          style={{ marginBottom: '2.5rem' }}
         >
-          <span className="text-6xl block mb-3">{team.emoji}</span>
-          <h2 className="text-5xl font-bold text-white mb-2">{member.name}</h2>
-          <p className="text-2xl text-slate-400 mb-4">{team.name}</p>
-          <p className="text-xl text-yellow-400">¡Listo para sortear un premio!</p>
+          <h2 className="font-black text-white" style={{ fontSize: '4rem', marginBottom: '0.5rem' }}>{member.name} - {team.name}</h2>
+          <p className="text-amber-400 font-bold" style={{ fontSize: '1.75rem' }}>¡Listo para sortear un premio!</p>
         </motion.div>
 
-        {/* Slot machine display */}
-        <div className="relative w-[750px] max-w-[95vw] h-[380px] mx-auto" style={{ marginBottom: '5rem' }}>
-          {/* Decorative frame */}
-          <div className="absolute inset-0 border-4 border-yellow-500/40 rounded-2xl glow-gold" />
-          <div className="absolute inset-2 border-2 border-yellow-500/20 rounded-xl" />
+        {/* CAMERA-OPTIMIZED: Massive slot machine display */}
+        <div className="relative w-full max-w-5xl h-[450px] mx-auto" style={{ marginBottom: '3rem' }}>
+          {/* Decorative frame - CAMERA-OPTIMIZED: Thicker borders */}
+          <div className="absolute inset-0 border-8 border-amber-400 rounded-3xl glow-gold-intense" />
+          <div className="absolute inset-4 border-4 border-amber-500/60 rounded-2xl" />
 
           {/* Center highlight bar */}
-          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-52 bg-yellow-500/10 border-y-2 border-yellow-500/30 pointer-events-none z-10" />
+          <div className="absolute inset-x-6 top-1/2 -translate-y-1/2 h-64 bg-amber-500/20 border-y-4 border-amber-400 pointer-events-none z-10" />
 
           {/* Prize display */}
-          <div className="absolute inset-4 overflow-hidden rounded-lg bg-slate-900/90">
+          <div className="absolute inset-6 overflow-hidden rounded-2xl bg-gray-950">
             <AnimatePresence mode="wait">
               {phase === 'idle' && (
                 <motion.div
@@ -242,7 +211,7 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
                   exit={{ opacity: 0, scale: 0.9 }}
                   className="absolute inset-0 flex items-center justify-center"
                 >
-                  <p className="text-5xl font-bold text-slate-500">
+                  <p className="font-black text-gray-500" style={{ fontSize: '4rem' }}>
                     Listo para sortear...
                   </p>
                 </motion.div>
@@ -257,10 +226,10 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
                   className="absolute inset-0 flex items-center justify-center"
                 >
                   <div className="text-center">
-                    <p className="text-6xl font-bold text-yellow-400 text-glow">
+                    <p className="font-black text-amber-400 text-glow" style={{ fontSize: '5rem' }}>
                       ¿QUÉ GANARÁ?
                     </p>
-                    <p className="text-2xl text-slate-400 mt-4">
+                    <p className="text-white font-bold" style={{ fontSize: '2rem', marginTop: '1rem' }}>
                       ¡Pulsa GIRAR para descubrirlo!
                     </p>
                   </div>
@@ -276,11 +245,11 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
                   transition={{ duration: phase === 'slowing' ? 0.12 : 0.02 }}
                   className="absolute inset-0 flex items-center justify-center"
                 >
-                  <div className="flex items-center gap-6">
-                    <span className={`text-6xl ${phase === 'slowing' ? 'text-7xl' : ''}`}>
+                  <div className="flex items-center gap-8">
+                    <span style={{ fontSize: phase === 'slowing' ? '8rem' : '6rem' }}>
                       {currentPrize.emoji}
                     </span>
-                    <p className={`font-bold text-white ${phase === 'slowing' ? 'text-5xl' : 'text-4xl'}`}>
+                    <p className={`font-black text-white ${phase === 'slowing' ? '' : ''}`} style={{ fontSize: phase === 'slowing' ? '4rem' : '3.5rem' }}>
                       {currentPrize.name}
                     </p>
                   </div>
@@ -299,19 +268,21 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
                   }}
                   className="absolute inset-0 flex items-center justify-center px-8"
                 >
-                  <div className="text-center">
-                    <span className="text-7xl block mb-3">{winningPrize.emoji}</span>
-                    <p className="text-4xl font-bold text-gold-gradient text-glow winner-reveal mb-3">
+                  <div className="text-center relative w-full">
+                    {/* Value in top right */}
+                    <p className="absolute top-0 right-8 font-bold text-green-400" style={{ fontSize: '1.75rem' }}>
+                      {winningPrize.value}
+                    </p>
+                    {/* Prize name - main focus */}
+                    <p className="font-black text-gold-gradient text-glow winner-reveal" style={{ fontSize: '5rem', marginBottom: '1.5rem' }}>
                       {winningPrize.name}
                     </p>
-                    <p className="text-2xl text-green-400 font-bold mb-2">
-                      Valor: {winningPrize.value}
-                    </p>
-                    <div className="flex items-center justify-center gap-3">
-                      <span className={`px-4 py-1.5 rounded-full text-sm font-bold uppercase ${getTierStyle(winningPrize.tier)}`}>
+                    {/* Tier badge and description */}
+                    <div className="flex items-center justify-center gap-6">
+                      <span className={`px-8 py-3 rounded-full font-black uppercase border-4 ${getTierStyle(winningPrize.tier)}`} style={{ fontSize: '1.5rem' }}>
                         {winningPrize.tier}
                       </span>
-                      <p className="text-lg text-slate-400">{winningPrize.description}</p>
+                      <p className="text-gray-300 font-bold" style={{ fontSize: '1.5rem' }}>{winningPrize.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -319,16 +290,16 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
             </AnimatePresence>
           </div>
 
-          {/* Side decorations */}
-          <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-40 bg-gradient-to-r from-yellow-600 to-yellow-500 rounded-l-xl shadow-lg" />
-          <div className="absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-40 bg-gradient-to-l from-yellow-600 to-yellow-500 rounded-r-xl shadow-lg" />
+          {/* Side decorations - CAMERA-OPTIMIZED: Larger */}
+          <div className="absolute -left-8 top-1/2 -translate-y-1/2 w-16 h-48 bg-gradient-to-r from-amber-500 to-amber-400 rounded-l-2xl shadow-lg border-4 border-amber-300" />
+          <div className="absolute -right-8 top-1/2 -translate-y-1/2 w-16 h-48 bg-gradient-to-l from-amber-500 to-amber-400 rounded-r-2xl shadow-lg border-4 border-amber-300" />
 
-          {/* Top/bottom light effects */}
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-40 h-6 bg-gradient-to-b from-yellow-400/50 to-transparent rounded-full blur-sm" />
-          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-40 h-6 bg-gradient-to-t from-yellow-400/50 to-transparent rounded-full blur-sm" />
+          {/* Top/bottom glow - CAMERA-OPTIMIZED: More visible */}
+          <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-64 h-8 bg-gradient-to-b from-amber-400/70 to-transparent rounded-full blur-md" />
+          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-64 h-8 bg-gradient-to-t from-amber-400/70 to-transparent rounded-full blur-md" />
         </div>
 
-        {/* Action buttons */}
+        {/* CAMERA-OPTIMIZED: Massive action buttons */}
         <div className="flex gap-8 justify-center">
           {phase === 'idle' && (
             <>
@@ -336,7 +307,8 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={startDrawing}
-                className="btn-gold text-3xl px-16 py-6"
+                className="btn-gold"
+                style={{ fontSize: '2.5rem', padding: '2rem 5rem' }}
               >
                 🎰 ¡GIRAR PARA GANAR!
               </motion.button>
@@ -344,7 +316,8 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onCancel}
-                className="px-16 py-6 bg-slate-800 text-slate-300 font-bold rounded-xl text-2xl hover:bg-slate-700 transition-colors"
+                className="bg-gray-800 text-white font-black rounded-2xl border-4 border-gray-600 hover:bg-gray-700 hover:border-gray-500 transition-colors"
+                style={{ fontSize: '2rem', padding: '2rem 4rem' }}
               >
                 Cancelar
               </motion.button>
@@ -359,21 +332,22 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleContinue}
-              className="btn-gold text-3xl px-16 py-6"
+              className="btn-gold"
+              style={{ fontSize: '2.5rem', padding: '2rem 5rem' }}
             >
               🎉 Continuar
             </motion.button>
           )}
         </div>
 
-        {/* Spinning indicator */}
+        {/* Spinning indicator - CAMERA-OPTIMIZED */}
         {(phase === 'spinning' || phase === 'slowing' || phase === 'building') && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            style={{ marginTop: '4rem' }}
+            style={{ marginTop: '3rem' }}
           >
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-6 justify-center">
               {[0, 1, 2].map((i) => (
                 <motion.div
                   key={i}
@@ -386,25 +360,25 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
                     duration: phase === 'slowing' ? 0.8 : 0.4,
                     delay: i * 0.15,
                   }}
-                  className="w-5 h-5 bg-yellow-500 rounded-full"
+                  className="w-8 h-8 bg-amber-400 rounded-full"
                 />
               ))}
             </div>
-            <p className="text-slate-500 mt-6 text-xl">
+            <p className="text-gray-400 font-bold" style={{ fontSize: '1.75rem', marginTop: '1.5rem' }}>
               {phase === 'building' ? 'Get ready...' : phase === 'slowing' ? 'Almost there...' : 'Spinning...'}
             </p>
           </motion.div>
         )}
 
-        {/* Winner celebration text */}
+        {/* Winner celebration text - CAMERA-OPTIMIZED: MASSIVE */}
         {phase === 'celebrating' && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            style={{ marginTop: '3rem' }}
+            style={{ marginTop: '2rem' }}
           >
-            <p className="text-3xl text-yellow-400 font-bold animate-pulse">
+            <p className="text-amber-400 font-black animate-pulse text-glow" style={{ fontSize: '3.5rem' }}>
               🎊 ¡{member.name} GANA! 🎊
             </p>
           </motion.div>

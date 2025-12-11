@@ -9,45 +9,52 @@ interface WinnersWallProps {
   onBack: () => void;
 }
 
+// CAMERA-OPTIMIZED: High contrast solid tier colors
 const tierColors = {
-  grand: 'from-purple-500 to-pink-500',
-  gold: 'from-yellow-400 to-amber-500',
-  silver: 'from-gray-300 to-gray-400',
-  bronze: 'from-amber-600 to-amber-700',
+  grand: 'from-purple-500 to-purple-400',
+  gold: 'from-amber-400 to-amber-300',
+  silver: 'from-gray-300 to-gray-200',
+  bronze: 'from-amber-600 to-amber-500',
 };
 
 const tierBorders = {
   grand: 'border-purple-400',
-  gold: 'border-yellow-400',
+  gold: 'border-amber-400',
   silver: 'border-gray-300',
   bronze: 'border-amber-600',
 };
 
+const tierBg = {
+  grand: 'bg-purple-900',
+  gold: 'bg-amber-900',
+  silver: 'bg-gray-800',
+  bronze: 'bg-amber-950',
+};
+
+// CAMERA-OPTIMIZED: High contrast solid colors
 const teamColorConfig: Record<string, { bg: string; border: string; accent: string }> = {
-  blue: { bg: 'bg-blue-500/20', border: 'border-blue-500/50', accent: 'text-blue-400' },
-  red: { bg: 'bg-red-500/20', border: 'border-red-500/50', accent: 'text-red-400' },
-  pink: { bg: 'bg-pink-500/20', border: 'border-pink-500/50', accent: 'text-pink-400' },
-  purple: { bg: 'bg-purple-500/20', border: 'border-purple-500/50', accent: 'text-purple-400' },
-  green: { bg: 'bg-green-500/20', border: 'border-green-500/50', accent: 'text-green-400' },
-  amber: { bg: 'bg-amber-500/20', border: 'border-amber-500/50', accent: 'text-amber-400' },
-  emerald: { bg: 'bg-emerald-500/20', border: 'border-emerald-500/50', accent: 'text-emerald-400' },
-  orange: { bg: 'bg-orange-500/20', border: 'border-orange-500/50', accent: 'text-orange-400' },
-  cyan: { bg: 'bg-cyan-500/20', border: 'border-cyan-500/50', accent: 'text-cyan-400' },
-  sky: { bg: 'bg-sky-500/20', border: 'border-sky-500/50', accent: 'text-sky-400' },
-  teal: { bg: 'bg-teal-500/20', border: 'border-teal-500/50', accent: 'text-teal-400' },
-  fuchsia: { bg: 'bg-fuchsia-500/20', border: 'border-fuchsia-500/50', accent: 'text-fuchsia-400' },
-  yellow: { bg: 'bg-yellow-500/20', border: 'border-yellow-500/50', accent: 'text-yellow-400' },
-  lime: { bg: 'bg-lime-500/20', border: 'border-lime-500/50', accent: 'text-lime-400' },
+  blue: { bg: 'bg-blue-600', border: 'border-blue-400', accent: 'text-blue-300' },
+  red: { bg: 'bg-red-600', border: 'border-red-400', accent: 'text-red-300' },
+  pink: { bg: 'bg-pink-600', border: 'border-pink-400', accent: 'text-pink-300' },
+  purple: { bg: 'bg-purple-600', border: 'border-purple-400', accent: 'text-purple-300' },
+  green: { bg: 'bg-green-600', border: 'border-green-400', accent: 'text-green-300' },
+  amber: { bg: 'bg-amber-600', border: 'border-amber-400', accent: 'text-amber-300' },
+  emerald: { bg: 'bg-emerald-600', border: 'border-emerald-400', accent: 'text-emerald-300' },
+  orange: { bg: 'bg-orange-600', border: 'border-orange-400', accent: 'text-orange-300' },
+  cyan: { bg: 'bg-cyan-600', border: 'border-cyan-400', accent: 'text-cyan-300' },
+  sky: { bg: 'bg-sky-600', border: 'border-sky-400', accent: 'text-sky-300' },
+  teal: { bg: 'bg-teal-600', border: 'border-teal-400', accent: 'text-teal-300' },
+  fuchsia: { bg: 'bg-fuchsia-600', border: 'border-fuchsia-400', accent: 'text-fuchsia-300' },
+  yellow: { bg: 'bg-yellow-600', border: 'border-yellow-400', accent: 'text-yellow-300' },
+  lime: { bg: 'bg-lime-600', border: 'border-lime-400', accent: 'text-lime-300' },
 };
 
 export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
-  // Group winners by team
   const winnersByTeam = teams.map(team => ({
     team,
     winners: winners.filter(w => w.teamId === team.id),
   })).filter(group => group.winners.length > 0);
 
-  // Generate and download winners report
   const downloadWinnersReport = () => {
     const date = new Date().toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -63,7 +70,6 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
     report += `Total de ganadores: ${winners.length}\n`;
     report += `${'='.repeat(50)}\n\n`;
 
-    // Group by team for the report
     winnersByTeam.forEach(({ team, winners: teamWinners }) => {
       report += `\n${team.emoji} ${team.name.toUpperCase()}\n`;
       report += `${'-'.repeat(40)}\n`;
@@ -74,7 +80,6 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
       });
     });
 
-    // Summary by prize type
     report += `\n\n${'='.repeat(50)}\n`;
     report += `RESUMEN POR TIPO DE PREMIO\n`;
     report += `${'='.repeat(50)}\n`;
@@ -96,7 +101,6 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
       });
     });
 
-    // Create and download file
     const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -108,21 +112,23 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
     URL.revokeObjectURL(url);
   };
 
+  // CAMERA-OPTIMIZED: Large winner card
   const WinnerCard = ({ winner, index }: { winner: Winner; index: number }) => (
     <motion.div
       initial={{ opacity: 0, y: 20, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ delay: index * 0.05 }}
-      className={`prize-card border-2 ${tierBorders[winner.prizeType.tier]}`}
+      className={`rounded-2xl border-4 ${tierBorders[winner.prizeType.tier]} ${tierBg[winner.prizeType.tier]}`}
+      style={{ padding: '1.5rem' }}
     >
-      <div className="flex items-center gap-4">
-        <span className="text-4xl">{winner.prizeType.emoji}</span>
+      <div className="flex items-center gap-5">
+        <span style={{ fontSize: '4rem' }}>{winner.prizeType.emoji}</span>
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-bold text-white truncate">{winner.memberName}</h3>
-          <p className={`text-sm font-bold bg-gradient-to-r ${tierColors[winner.prizeType.tier]} bg-clip-text text-transparent truncate`}>
+          <h3 className="font-black text-white truncate" style={{ fontSize: '1.75rem' }}>{winner.memberName}</h3>
+          <p className={`font-black bg-gradient-to-r ${tierColors[winner.prizeType.tier]} bg-clip-text text-transparent truncate`} style={{ fontSize: '1.5rem' }}>
             {winner.prizeType.name}
           </p>
-          <p className="text-sm text-green-400 font-semibold">
+          <p className="font-bold text-green-400" style={{ fontSize: '1.25rem' }}>
             {winner.prizeType.value}
           </p>
         </div>
@@ -144,19 +150,22 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
         transition={{ delay: 0.1 * index }}
         style={{ marginBottom: '3rem' }}
       >
-        {/* Team header */}
-        <div className={`flex items-center rounded-2xl ${colorConfig.bg} border ${colorConfig.border}`} style={{ gap: '1.5rem', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}>
-          <div className={`w-16 h-16 rounded-xl ${colorConfig.bg} flex items-center justify-center border border-white/10`}>
-            <span className="text-4xl">{team.emoji}</span>
+        {/* Team header - CAMERA-OPTIMIZED */}
+        <div
+          className={`flex items-center rounded-2xl ${colorConfig.bg.replace('600', '900')} border-4 ${colorConfig.border}`}
+          style={{ gap: '1.5rem', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}
+        >
+          <div className={`w-20 h-20 rounded-xl ${colorConfig.bg} flex items-center justify-center border-2 border-white/30`}>
+            <span style={{ fontSize: '3.5rem' }}>{team.emoji}</span>
           </div>
           <div className="flex-1">
-            <h2 className={`text-2xl font-bold ${colorConfig.accent}`} style={{ marginBottom: '0.25rem' }}>{team.name}</h2>
-            <p className="text-slate-400 text-base">{teamWinners.length} ganador{teamWinners.length !== 1 ? 'es' : ''}</p>
+            <h2 className={`font-black ${colorConfig.accent}`} style={{ fontSize: '2.25rem', marginBottom: '0.25rem' }}>{team.name}</h2>
+            <p className="text-gray-300 font-bold" style={{ fontSize: '1.5rem' }}>{teamWinners.length} ganador{teamWinners.length !== 1 ? 'es' : ''}</p>
           </div>
         </div>
 
-        {/* Winners grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Winners grid - CAMERA-OPTIMIZED */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {teamWinners.map((winner, i) => (
             <WinnerCard key={winner.memberId} winner={winner} index={i} />
           ))}
@@ -166,43 +175,46 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 relative overflow-hidden">
+    // CAMERA-OPTIMIZED: Solid black background
+    <div className="min-h-screen bg-black relative overflow-hidden">
       <ParticlesBackground variant="ambient" />
 
       <div className="relative z-10 w-full flex justify-center">
-        <div className="w-full max-w-6xl px-6 sm:px-10 lg:px-12" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-          {/* Header */}
+        <div className="w-full max-w-7xl px-8" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
+          {/* Header - CAMERA-OPTIMIZED */}
           <motion.div
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             className="text-center relative"
-            style={{ marginBottom: '4rem' }}
+            style={{ marginBottom: '3rem' }}
           >
             <button
               onClick={onBack}
-              className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+              className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-3 text-white hover:text-amber-400 transition-colors bg-gray-800 rounded-xl border-2 border-gray-600 hover:border-amber-400"
+              style={{ padding: '1rem 1.5rem', fontSize: '1.25rem' }}
             >
-              <ArrowLeft size={24} />
-              <span className="hidden sm:inline">Volver a Equipos</span>
+              <ArrowLeft size={32} />
+              <span className="font-bold">Volver</span>
             </button>
 
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <Trophy className="w-12 h-12 text-yellow-400" />
-              <h1 className="text-5xl font-display font-bold text-gold-gradient">
+            <div className="flex items-center justify-center gap-5 mb-4">
+              <Trophy className="w-16 h-16 text-amber-400" />
+              <h1 className="font-display font-black text-gold-gradient text-glow" style={{ fontSize: '4.5rem' }}>
                 Muro de Ganadores
               </h1>
-              <Trophy className="w-12 h-12 text-yellow-400" />
+              <Trophy className="w-16 h-16 text-amber-400" />
             </div>
-            <p className="text-gray-400 text-lg">
+            <p className="text-white font-bold" style={{ fontSize: '1.75rem' }}>
               {winners.length} ganador{winners.length !== 1 ? 'es' : ''} hasta ahora
             </p>
 
             {winners.length > 0 && (
               <button
                 onClick={downloadWinnersReport}
-                className="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg text-slate-300 hover:text-white transition-colors"
+                className="mt-6 inline-flex items-center gap-3 bg-gray-800 hover:bg-gray-700 border-4 border-gray-600 hover:border-amber-400 rounded-xl text-white hover:text-amber-400 transition-colors font-bold"
+                style={{ padding: '1rem 2rem', fontSize: '1.25rem' }}
               >
-                <Download size={18} />
+                <Download size={28} />
                 <span>Descargar Informe</span>
               </button>
             )}
@@ -215,9 +227,9 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
               animate={{ opacity: 1 }}
               className="text-center py-20"
             >
-              <Trophy className="w-24 h-24 mx-auto text-gray-700 mb-6" />
-              <p className="text-2xl text-gray-500">Aún no hay ganadores</p>
-              <p className="text-gray-600 mt-2">¡Comienza el sorteo para ver a los ganadores aquí!</p>
+              <Trophy className="w-32 h-32 mx-auto text-gray-700 mb-6" />
+              <p className="font-black text-gray-500" style={{ fontSize: '2.5rem' }}>Aún no hay ganadores</p>
+              <p className="text-gray-600 font-bold mt-3" style={{ fontSize: '1.5rem' }}>¡Comienza el sorteo para ver a los ganadores aquí!</p>
             </motion.div>
           ) : (
             <>
@@ -230,12 +242,12 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
                 />
               ))}
 
-              {/* Prize tier summary */}
+              {/* Prize tier summary - CAMERA-OPTIMIZED */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="flex flex-wrap justify-center gap-4"
+                className="flex flex-wrap justify-center gap-6"
                 style={{ marginTop: '3rem' }}
               >
                 {(['grand', 'gold', 'silver', 'bronze'] as const).map(tier => {
@@ -244,12 +256,13 @@ export function WinnersWall({ winners, teams, onBack }: WinnersWallProps) {
                   return (
                     <div
                       key={tier}
-                      className={`px-6 py-3 rounded-full border ${tierBorders[tier]} bg-slate-800/50`}
+                      className={`rounded-full border-4 ${tierBorders[tier]} ${tierBg[tier]}`}
+                      style={{ padding: '1rem 2rem' }}
                     >
-                      <span className={`font-bold bg-gradient-to-r ${tierColors[tier]} bg-clip-text text-transparent uppercase`}>
+                      <span className={`font-black bg-gradient-to-r ${tierColors[tier]} bg-clip-text text-transparent uppercase`} style={{ fontSize: '1.5rem' }}>
                         {tier}
                       </span>
-                      <span className="text-slate-400 ml-2">× {count}</span>
+                      <span className="text-white font-bold ml-3" style={{ fontSize: '1.5rem' }}>× {count}</span>
                     </div>
                   );
                 })}

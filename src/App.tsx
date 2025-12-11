@@ -122,7 +122,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-black">
       <AnimatePresence mode="wait">
         {screen === 'teams' && (
           <TeamSelectionScreen
@@ -166,11 +166,12 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Reset button - hidden in corner */}
+      {/* CAMERA-OPTIMIZED: Larger reset button */}
       {screen === 'teams' && winners.length > 0 && (
         <button
           onClick={handleReset}
-          className="fixed bottom-4 right-4 px-4 py-2 bg-red-900/50 text-red-400 text-sm rounded-lg border border-red-800 hover:bg-red-900 transition-colors"
+          className="fixed bottom-6 right-6 bg-red-900 text-red-300 font-bold rounded-xl border-4 border-red-700 hover:bg-red-800 hover:border-red-500 transition-colors"
+          style={{ padding: '1rem 2rem', fontSize: '1.25rem' }}
         >
           Reiniciar
         </button>
