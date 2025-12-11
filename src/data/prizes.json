@@ -1,0 +1,87 @@
+{
+  "prizeTypes": [
+    {
+      "id": 1,
+      "name": "Cesta de Navidad",
+      "description": "Cesta navideña valorada en $150",
+      "quantity": 10,
+      "value": "$150",
+      "tier": "gold",
+      "emoji": "🎄"
+    },
+    {
+      "id": 2,
+      "name": "Masaje para dos",
+      "description": "Experiencia de masaje para dos personas",
+      "quantity": 2,
+      "value": "$100",
+      "tier": "gold",
+      "emoji": "💆"
+    },
+    {
+      "id": 3,
+      "name": "Cena para dos",
+      "description": "Cena para dos personas valorada en $120",
+      "quantity": 2,
+      "value": "$120",
+      "tier": "gold",
+      "emoji": "🍽️"
+    },
+    {
+      "id": 4,
+      "name": "Parque de atracciones",
+      "description": "Entradas para parque de atracciones para dos personas",
+      "quantity": 2,
+      "value": "$100",
+      "tier": "gold",
+      "emoji": "🎢"
+    },
+    {
+      "id": 5,
+      "name": "Cata de vino",
+      "description": "Experiencia de cata de vino para dos personas",
+      "quantity": 2,
+      "value": "$100",
+      "tier": "gold",
+      "emoji": "🍷"
+    },
+    {
+      "id": 6,
+      "name": "Fin de semana sorpresa",
+      "description": "Experiencia de fin de semana sorpresa para dos personas",
+      "quantity": 1,
+      "value": "$250",
+      "tier": "grand",
+      "emoji": "🎁"
+    },
+    {
+      "id": 7,
+      "name": "Tarjeta Amazon 75$",
+      "description": "Tarjeta regalo de Amazon valorada en 75 $",
+      "quantity": 25,
+      "value": "75 $",
+      "tier": "silver",
+      "emoji": "🛒",
+      "isExtraStock": true
+    },
+    {
+      "id": 8,
+      "name": "Tarjeta Amazon 100$",
+      "description": "Tarjeta regalo de Amazon valorada en 100 $",
+      "quantity": 25,
+      "value": "100 $",
+      "tier": "silver",
+      "emoji": "🛍️",
+      "isExtraStock": true
+    },
+    {
+      "id": 9,
+      "name": "Viaje sorpresa para dos",
+      "description": "Viaje de fin de semana sorpresa para dos personas",
+      "quantity": 1,
+      "value": "$250",
+      "tier": "grand",
+      "emoji": "✈️"
+    }
+  ]
+}
