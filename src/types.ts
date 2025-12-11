@@ -37,13 +37,13 @@ export type AppScreen = 'teams' | 'members' | 'drawing' | 'wall';
 export type DrawingPhase = 'idle' | 'building' | 'spinning' | 'slowing' | 'reveal' | 'celebrating';
 
 // Prize type IDs and probabilities:
-// 1 = Cesta de Navidad (5%)
-// 2 = Masaje para dos (15%)
-// 3 = Cena para dos (15%)
-// 4 = Parque de atracciones (15%)
-// 5 = Cata de vino (15%)
+// 1 = Cesta de Navidad (18%)
+// 2 = Masaje para dos (9.5%)
+// 3 = Cena para dos (9.5%)
+// 4 = Parque de atracciones (9.5%)
+// 5 = Cata de vino (9.5%)
 // 6 = Fin de semana sorpresa (5%)
-// 7 = Tarjeta Amazon 75$ (5%)
+// 7 = Tarjeta Amazon 75$ (14%)
 // 8 = Tarjeta Amazon 100$ (15%)
 // 9 = Viaje sorpresa para dos (5%)
 // 10 = Tu eliges, nosotros pagamos (5%)

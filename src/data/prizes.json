@@ -7,7 +7,7 @@
       "value": "$150",
       "tier": "gold",
       "emoji": "🎄",
-      "probability": 0.05
+      "probability": 0.18
     },
     {
       "id": 2,
@@ -16,7 +16,7 @@
       "value": "$100",
       "tier": "gold",
       "emoji": "💆",
-      "probability": 0.15
+      "probability": 0.095
     },
     {
       "id": 3,
@@ -25,7 +25,7 @@
       "value": "$120",
       "tier": "gold",
       "emoji": "🍽️",
-      "probability": 0.15
+      "probability": 0.095
     },
     {
       "id": 4,
@@ -34,7 +34,7 @@
       "value": "$100",
       "tier": "gold",
       "emoji": "🎢",
-      "probability": 0.15
+      "probability": 0.095
     },
     {
       "id": 5,
@@ -43,7 +43,7 @@
       "value": "$100",
       "tier": "gold",
       "emoji": "🍷",
-      "probability": 0.15
+      "probability": 0.095
     },
     {
       "id": 6,
@@ -61,7 +61,7 @@
       "value": "$75",
       "tier": "silver",
       "emoji": "🛒",
-      "probability": 0.05
+      "probability": 0.14
     },
     {
       "id": 8,

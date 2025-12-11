@@ -15,13 +15,13 @@ El sistema cuenta con 10 tipos de premios, cada uno con una probabilidad fija:
 ┌────┬────────────────────────────────┬─────────┬──────────────┬───────────────┐
 │ ID │ Premio                         │ Valor   │ Categoría    │ Probabilidad  │
 ├────┼────────────────────────────────┼─────────┼──────────────┼───────────────┤
-│  1 │ Cesta de Navidad               │  $150   │ Gold         │      5%       │
-│  2 │ Masaje para dos                │  $100   │ Gold         │     15%       │
-│  3 │ Cena para dos                  │  $120   │ Gold         │     15%       │
-│  4 │ Parque de atracciones          │  $100   │ Gold         │     15%       │
-│  5 │ Cata de vino                   │  $100   │ Gold         │     15%       │
+│  1 │ Cesta de Navidad               │  $150   │ Gold         │     18%       │
+│  2 │ Masaje para dos                │  $100   │ Gold         │     9.5%      │
+│  3 │ Cena para dos                  │  $120   │ Gold         │     9.5%      │
+│  4 │ Parque de atracciones          │  $100   │ Gold         │     9.5%      │
+│  5 │ Cata de vino                   │  $100   │ Gold         │     9.5%      │
 │  6 │ Fin de semana sorpresa         │  $250   │ Grand        │      5%       │
-│  7 │ Tarjeta Amazon 75$             │   $75   │ Silver       │      5%       │
+│  7 │ Tarjeta Amazon 75$             │   $75   │ Silver       │     14%       │
 │  8 │ Tarjeta Amazon 100$            │  $100   │ Silver       │     15%       │
 │  9 │ Viaje sorpresa para dos        │  $250   │ Grand        │      5%       │
 │ 10 │ Tu eliges, nosotros pagamos    │  $150   │ Gold         │      5%       │
@@ -94,8 +94,11 @@ GRUPO A - Sin normalización necesaria:
   Factor de normalización = 1.0
 
 GRUPO B - Requiere normalización:
-  Suma de probabilidades base = 90% (excluye premios 6 y 9)
+  Suma de probabilidades base = 90% (excluye premios 6 y 9, que suman 10%)
   Factor de normalización = 100% / 90% = 1.1111
+
+Cálculo de suma para Grupo B:
+  18% + 9.5% + 9.5% + 9.5% + 9.5% + 14% + 15% + 5% = 90%
 
 ================================================================================
 5. PROBABILIDADES EFECTIVAS POR GRUPO
@@ -105,13 +108,13 @@ GRUPO B - Requiere normalización:
 │ Premio                             │ Grupo A (61p)   │ Grupo B (4p)    │
 │                                    │ Acceso Completo │ Restringido     │
 ├────────────────────────────────────┼─────────────────┼─────────────────┤
-│ 1. Cesta de Navidad                │      5.00%      │      5.56%      │
-│ 2. Masaje para dos                 │     15.00%      │     16.67%      │
-│ 3. Cena para dos                   │     15.00%      │     16.67%      │
-│ 4. Parque de atracciones           │     15.00%      │     16.67%      │
-│ 5. Cata de vino                    │     15.00%      │     16.67%      │
+│ 1. Cesta de Navidad                │     18.00%      │     20.00%      │
+│ 2. Masaje para dos                 │      9.50%      │     10.56%      │
+│ 3. Cena para dos                   │      9.50%      │     10.56%      │
+│ 4. Parque de atracciones           │      9.50%      │     10.56%      │
+│ 5. Cata de vino                    │      9.50%      │     10.56%      │
 │ 6. Fin de semana sorpresa          │      5.00%      │      0.00%      │
-│ 7. Tarjeta Amazon 75$              │      5.00%      │      5.56%      │
+│ 7. Tarjeta Amazon 75$              │     14.00%      │     15.56%      │
 │ 8. Tarjeta Amazon 100$             │     15.00%      │     16.67%      │
 │ 9. Viaje sorpresa para dos         │      5.00%      │      0.00%      │
 │ 10. Tu eliges, nosotros pagamos    │      5.00%      │      5.56%      │
@@ -121,9 +124,15 @@ GRUPO B - Requiere normalización:
 
 * Diferencia por redondeo en presentación. El algoritmo usa valores exactos.
 
-Cálculos para Grupo B (normalización):
-  - Premio base 5%:  5 ÷ 90 × 100 = 5.556%  (premios 1, 7, 10)
-  - Premio base 15%: 15 ÷ 90 × 100 = 16.667% (premios 2, 3, 4, 5, 8)
+Cálculos para Grupo B (normalización dividiendo entre 0.90):
+  - P1 Cesta:    18 ÷ 90 × 100 = 20.00%
+  - P2 Masaje:   9.5 ÷ 90 × 100 = 10.56%
+  - P3 Cena:     9.5 ÷ 90 × 100 = 10.56%
+  - P4 Parque:   9.5 ÷ 90 × 100 = 10.56%
+  - P5 Cata:     9.5 ÷ 90 × 100 = 10.56%
+  - P7 Amazon75: 14 ÷ 90 × 100 = 15.56%
+  - P8 Amazon100: 15 ÷ 90 × 100 = 16.67%
+  - P10 Tu eliges: 5 ÷ 90 × 100 = 5.56%
 
 ================================================================================
 6. PARTICIPANTES Y EQUIPOS
@@ -288,13 +297,13 @@ Para los 61 participantes del Grupo A (probabilidades base):
 ┌────────────────────────────────────┬─────────────┬───────────────────────┐
 │ Premio                             │ Probabilidad│ Esperados (de 61)     │
 ├────────────────────────────────────┼─────────────┼───────────────────────┤
-│ 1. Cesta de Navidad                │      5%     │   ~3.05 personas      │
-│ 2. Masaje para dos                 │     15%     │   ~9.15 personas      │
-│ 3. Cena para dos                   │     15%     │   ~9.15 personas      │
-│ 4. Parque de atracciones           │     15%     │   ~9.15 personas      │
-│ 5. Cata de vino                    │     15%     │   ~9.15 personas      │
+│ 1. Cesta de Navidad                │     18%     │  ~10.98 personas      │
+│ 2. Masaje para dos                 │     9.5%    │   ~5.80 personas      │
+│ 3. Cena para dos                   │     9.5%    │   ~5.80 personas      │
+│ 4. Parque de atracciones           │     9.5%    │   ~5.80 personas      │
+│ 5. Cata de vino                    │     9.5%    │   ~5.80 personas      │
 │ 6. Fin de semana sorpresa          │      5%     │   ~3.05 personas      │
-│ 7. Tarjeta Amazon 75$              │      5%     │   ~3.05 personas      │
+│ 7. Tarjeta Amazon 75$              │     14%     │   ~8.54 personas      │
 │ 8. Tarjeta Amazon 100$             │     15%     │   ~9.15 personas      │
 │ 9. Viaje sorpresa para dos         │      5%     │   ~3.05 personas      │
 │ 10. Tu eliges, nosotros pagamos    │      5%     │   ~3.05 personas      │
@@ -304,12 +313,12 @@ Para los 4 participantes del Grupo B (probabilidades normalizadas):
 ┌────────────────────────────────────┬─────────────┬───────────────────────┐
 │ Premio                             │ Prob. Norm. │ Esperados (de 4)      │
 ├────────────────────────────────────┼─────────────┼───────────────────────┤
-│ 1. Cesta de Navidad                │     5.56%   │   ~0.22 personas      │
-│ 2. Masaje para dos                 │    16.67%   │   ~0.67 personas      │
-│ 3. Cena para dos                   │    16.67%   │   ~0.67 personas      │
-│ 4. Parque de atracciones           │    16.67%   │   ~0.67 personas      │
-│ 5. Cata de vino                    │    16.67%   │   ~0.67 personas      │
-│ 7. Tarjeta Amazon 75$              │     5.56%   │   ~0.22 personas      │
+│ 1. Cesta de Navidad                │    20.00%   │   ~0.80 personas      │
+│ 2. Masaje para dos                 │    10.56%   │   ~0.42 personas      │
+│ 3. Cena para dos                   │    10.56%   │   ~0.42 personas      │
+│ 4. Parque de atracciones           │    10.56%   │   ~0.42 personas      │
+│ 5. Cata de vino                    │    10.56%   │   ~0.42 personas      │
+│ 7. Tarjeta Amazon 75$              │    15.56%   │   ~0.62 personas      │
 │ 8. Tarjeta Amazon 100$             │    16.67%   │   ~0.67 personas      │
 │ 10. Tu eliges, nosotros pagamos    │     5.56%   │   ~0.22 personas      │
 └────────────────────────────────────┴─────────────┴───────────────────────┘
@@ -318,19 +327,31 @@ DISTRIBUCIÓN TOTAL ESPERADA (65 participantes):
 ┌────────────────────────────────────┬───────────────────────────────────────┐
 │ Premio                             │ Total Esperado                        │
 ├────────────────────────────────────┼───────────────────────────────────────┤
-│ 1. Cesta de Navidad                │   ~3.27 personas  (3.05 + 0.22)       │
-│ 2. Masaje para dos                 │   ~9.82 personas  (9.15 + 0.67)       │
-│ 3. Cena para dos                   │   ~9.82 personas  (9.15 + 0.67)       │
-│ 4. Parque de atracciones           │   ~9.82 personas  (9.15 + 0.67)       │
-│ 5. Cata de vino                    │   ~9.82 personas  (9.15 + 0.67)       │
-│ 6. Fin de semana sorpresa          │   ~3.05 personas  (solo Grupo A)      │
-│ 7. Tarjeta Amazon 75$              │   ~3.27 personas  (3.05 + 0.22)       │
-│ 8. Tarjeta Amazon 100$             │   ~9.82 personas  (9.15 + 0.67)       │
-│ 9. Viaje sorpresa para dos         │   ~3.05 personas  (solo Grupo A)      │
-│ 10. Tu eliges, nosotros pagamos    │   ~3.27 personas  (3.05 + 0.22)       │
+│ 1. Cesta de Navidad                │  ~11.78 personas ≈ 12                 │
+│ 2. Masaje para dos                 │   ~6.22 personas ≈ 6                  │
+│ 3. Cena para dos                   │   ~6.22 personas ≈ 6                  │
+│ 4. Parque de atracciones           │   ~6.22 personas ≈ 6                  │
+│ 5. Cata de vino                    │   ~6.22 personas ≈ 6                  │
+│ 6. Fin de semana sorpresa          │   ~3.05 personas ≈ 3 (solo Grupo A)   │
+│ 7. Tarjeta Amazon 75$              │   ~9.16 personas ≈ 9                  │
+│ 8. Tarjeta Amazon 100$             │   ~9.82 personas ≈ 10                 │
+│ 9. Viaje sorpresa para dos         │   ~3.05 personas ≈ 3 (solo Grupo A)   │
+│ 10. Tu eliges, nosotros pagamos    │   ~3.27 personas ≈ 3                  │
 ├────────────────────────────────────┼───────────────────────────────────────┤
-│ TOTAL                              │        65 personas                    │
+│ TOTAL                              │        ~65 personas                   │
 └────────────────────────────────────┴───────────────────────────────────────┘
+
+Detalle de cálculos para totales:
+  - P1: 10.98 (Grupo A) + 0.80 (Grupo B) = 11.78
+  - P2: 5.80 + 0.42 = 6.22
+  - P3: 5.80 + 0.42 = 6.22
+  - P4: 5.80 + 0.42 = 6.22
+  - P5: 5.80 + 0.42 = 6.22
+  - P6: 3.05 + 0 = 3.05
+  - P7: 8.54 + 0.62 = 9.16
+  - P8: 9.15 + 0.67 = 9.82
+  - P9: 3.05 + 0 = 3.05
+  - P10: 3.05 + 0.22 = 3.27
 
 ================================================================================
 10. PERSISTENCIA DE DATOS
@@ -357,6 +378,11 @@ Cada ganador registra:
 - Selección por probabilidad ponderada
 - Normalización automática para elegibilidad parcial
 - Sistema anti-duplicados mediante vinculación de miembros
+
+Premios más probables:
+  1. Cesta de Navidad (18%) - ~12 ganadores esperados
+  2. Amazon 100$ (15%) - ~10 ganadores esperados
+  3. Amazon 75$ (14%) - ~9 ganadores esperados
 
 ================================================================================
                          Documento generado: Diciembre 2024
