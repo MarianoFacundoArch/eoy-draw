@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { TeamSelectionScreen } from './components/TeamSelectionScreen';
 import { MemberSelectionScreen } from './components/MemberSelectionScreen';
@@ -10,11 +10,10 @@ import type { AppScreen, Team, Member, PrizeType, Winner } from './types';
 import teamsData from './data/teams.json';
 import prizesData from './data/prizes.json';
 
-const STORAGE_KEY = 'prize-draw-state-v3';
+const STORAGE_KEY = 'prize-draw-state-v4';
 
 interface SavedState {
   winners: Winner[];
-  awardedPrizeTypeCounts: Record<number, number>; // prizeTypeId -> count awarded
 }
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [winners, setWinners] = useState<Winner[]>([]);
-  const [awardedPrizeTypeCounts, setAwardedPrizeTypeCounts] = useState<Record<number, number>>({});
 
   const teams: Team[] = teamsData.teams as Team[];
   const prizeTypes: PrizeType[] = prizesData.prizeTypes as PrizeType[];
@@ -47,14 +45,6 @@ function App() {
     return winners.find(w => linkedIds.includes(w.memberId));
   }, [winners, getLinkedMemberIds]);
 
-  // Calculate remaining quantity for each prize type
-  const getRemainingQuantity = useCallback((prizeTypeId: number): number => {
-    const prizeType = prizeTypes.find(p => p.id === prizeTypeId);
-    if (!prizeType) return 0;
-    const awarded = awardedPrizeTypeCounts[prizeTypeId] || 0;
-    return prizeType.quantity - awarded;
-  }, [prizeTypes, awardedPrizeTypeCounts]);
-
   // Load saved state from localStorage
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -62,7 +52,6 @@ function App() {
       try {
         const state: SavedState = JSON.parse(saved);
         setWinners(state.winners || []);
-        setAwardedPrizeTypeCounts(state.awardedPrizeTypeCounts || {});
       } catch {
         console.error('Failed to load saved state');
       }
@@ -71,29 +60,15 @@ function App() {
 
   // Save state to localStorage
   useEffect(() => {
-    const state: SavedState = { winners, awardedPrizeTypeCounts };
+    const state: SavedState = { winners };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [winners, awardedPrizeTypeCounts]);
+  }, [winners]);
 
-  // Get available prize types for a member (eligible + has remaining quantity)
-  // If no regular prizes available, fall back to extra stock prizes (unlimited Amazon cards)
+  // Get available prize types for a member (based on eligibility only - no stock limits)
   const getAvailablePrizeTypes = useCallback((member: Member): PrizeType[] => {
     const eligibleTypeIds = member.eligiblePrizeTypeIds || [];
-
-    // First, try to get regular available prizes
-    const regularPrizes = prizeTypes.filter(
-      pt => eligibleTypeIds.includes(pt.id) && getRemainingQuantity(pt.id) > 0
-    );
-
-    // If member has regular prizes available, return those
-    if (regularPrizes.length > 0) {
-      return regularPrizes;
-    }
-
-    // Otherwise, fall back to extra stock prizes (they have unlimited quantity)
-    const extraStockPrizes = prizeTypes.filter(pt => pt.isExtraStock);
-    return extraStockPrizes;
-  }, [prizeTypes, getRemainingQuantity]);
+    return prizeTypes.filter(pt => eligibleTypeIds.includes(pt.id));
+  }, [prizeTypes]);
 
   // Handle team selection
   const handleSelectTeam = useCallback((team: Team) => {
@@ -121,10 +96,6 @@ function App() {
     };
 
     setWinners(prev => [...prev, newWinner]);
-    setAwardedPrizeTypeCounts(prev => ({
-      ...prev,
-      [prizeType.id]: (prev[prizeType.id] || 0) + 1
-    }));
     setSelectedMember(null);
     setScreen('members');
   }, [selectedTeam, selectedMember]);
@@ -146,15 +117,9 @@ function App() {
   const handleReset = useCallback(() => {
     if (window.confirm('¿Estás seguro de que quieres reiniciar todos los ganadores? Esto no se puede deshacer.')) {
       setWinners([]);
-      setAwardedPrizeTypeCounts({});
       localStorage.removeItem(STORAGE_KEY);
     }
   }, []);
-
-  // Calculate total available prizes count (sum of remaining quantities)
-  const availablePrizesCount = useMemo(() => {
-    return prizeTypes.reduce((sum, pt) => sum + getRemainingQuantity(pt.id), 0);
-  }, [prizeTypes, getRemainingQuantity]);
 
   return (
     <div className="min-h-screen">
@@ -173,7 +138,6 @@ function App() {
           <MemberSelectionScreen
             key="members"
             team={selectedTeam}
-            availablePrizesCount={availablePrizesCount}
             hasMemberWon={hasMemberWon}
             getMemberWinner={getMemberWinner}
             onSelectMember={handleSelectMember}

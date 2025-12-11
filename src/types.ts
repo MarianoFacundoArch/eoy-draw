@@ -17,11 +17,10 @@ export interface PrizeType {
   id: number;
   name: string;
   description: string;
-  quantity: number; // How many of this prize are available
   value: string;
   tier: 'grand' | 'gold' | 'silver' | 'bronze';
   emoji: string;
-  isExtraStock?: boolean; // If true, this prize has unlimited extra stock for members with no other options
+  probability: number; // Fixed probability for this prize (0-1, must sum to 1 across all prizes)
 }
 
 export interface Winner {
@@ -37,13 +36,14 @@ export type AppScreen = 'teams' | 'members' | 'drawing' | 'wall';
 
 export type DrawingPhase = 'idle' | 'building' | 'spinning' | 'slowing' | 'reveal' | 'celebrating';
 
-// Prize type IDs:
-// 1 = Cesta de Navidad (10)
-// 2 = Masaje para dos (2)
-// 3 = Cena para dos (2)
-// 4 = Parque de atracciones (2)
-// 5 = Cata de vino (2)
-// 6 = Fin de semana sorpresa (1)
-// 7 = Tarjeta Amazon 75$ (25)
-// 8 = Tarjeta Amazon 100$ (25)
-// 9 = Viaje sorpresa para dos (1)
+// Prize type IDs and probabilities:
+// 1 = Cesta de Navidad (5%)
+// 2 = Masaje para dos (15%)
+// 3 = Cena para dos (15%)
+// 4 = Parque de atracciones (15%)
+// 5 = Cata de vino (15%)
+// 6 = Fin de semana sorpresa (5%)
+// 7 = Tarjeta Amazon 75$ (7.5%)
+// 8 = Tarjeta Amazon 100$ (17.5%)
+// 9 = Viaje sorpresa para dos (5%)
+// TOTAL = 100%

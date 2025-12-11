@@ -35,10 +35,25 @@ export function SlotMachine({ member, team, availablePrizeTypes, onComplete, onC
     return shuffled;
   };
 
-  // Select random prize
+  // Select prize using weighted random selection based on probabilities
   const selectWinningPrize = useCallback(() => {
-    const randomIndex = Math.floor(Math.random() * availablePrizeTypes.length);
-    return availablePrizeTypes[randomIndex];
+    // Calculate total probability from available prizes (for normalization if member has restricted eligibility)
+    const totalProbability = availablePrizeTypes.reduce((sum, prize) => sum + prize.probability, 0);
+
+    // Generate random number between 0 and total probability
+    const random = Math.random() * totalProbability;
+
+    // Select prize based on cumulative probability
+    let cumulative = 0;
+    for (const prize of availablePrizeTypes) {
+      cumulative += prize.probability;
+      if (random <= cumulative) {
+        return prize;
+      }
+    }
+
+    // Fallback to last prize (should never reach here, but safety)
+    return availablePrizeTypes[availablePrizeTypes.length - 1];
   }, [availablePrizeTypes]);
 
   // Start the drawing

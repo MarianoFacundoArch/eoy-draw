@@ -6,7 +6,6 @@ import { ParticlesBackground } from './Particles';
 
 interface MemberSelectionScreenProps {
   team: Team;
-  availablePrizesCount: number;
   hasMemberWon: (memberId: number) => boolean;
   getMemberWinner: (memberId: number) => Winner | undefined;
   onSelectMember: (member: Member) => void;
@@ -32,7 +31,6 @@ const teamColorConfig: Record<string, { bg: string; border: string; accent: stri
 
 export function MemberSelectionScreen({
   team,
-  availablePrizesCount,
   hasMemberWon,
   getMemberWinner,
   onSelectMember,
@@ -108,16 +106,6 @@ export function MemberSelectionScreen({
               <div style={{ marginRight: '1rem' }}>
                 <p className="text-4xl font-bold text-white" style={{ marginBottom: '0.25rem' }}>{teamWinnerCount}</p>
                 <p className="text-base text-slate-400">Ganaron</p>
-              </div>
-            </div>
-
-            <div className="flex items-center bg-emerald-500/20 rounded-2xl border border-emerald-500/50" style={{ gap: '2rem', padding: '2rem 3rem' }}>
-              <div className="w-16 h-16 rounded-xl bg-emerald-500/30 flex items-center justify-center border border-emerald-500/30">
-                <Gift className="w-8 h-8 text-emerald-400" />
-              </div>
-              <div style={{ marginRight: '1rem' }}>
-                <p className="text-4xl font-bold text-white" style={{ marginBottom: '0.25rem' }}>{availablePrizesCount}</p>
-                <p className="text-base text-slate-400">Premios Restantes</p>
               </div>
             </div>
           </motion.div>
