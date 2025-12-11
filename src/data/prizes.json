@@ -58,19 +58,19 @@
       "id": 7,
       "name": "Tarjeta Amazon 75$",
       "description": "Tarjeta regalo de Amazon valorada en 75 $",
-      "value": "75 $",
+      "value": "$75",
       "tier": "silver",
       "emoji": "🛒",
-      "probability": 0.075
+      "probability": 0.05
     },
     {
       "id": 8,
       "name": "Tarjeta Amazon 100$",
       "description": "Tarjeta regalo de Amazon valorada en 100 $",
-      "value": "100 $",
+      "value": "$100",
       "tier": "silver",
       "emoji": "🛍️",
-      "probability": 0.175
+      "probability": 0.15
     },
     {
       "id": 9,
@@ -79,6 +79,15 @@
       "value": "$250",
       "tier": "grand",
       "emoji": "✈️",
+      "probability": 0.05
+    },
+    {
+      "id": 10,
+      "name": "Tu eliges, nosotros pagamos",
+      "description": "Elige tu experiencia y nosotros la pagamos",
+      "value": "$150",
+      "tier": "gold",
+      "emoji": "🎯",
       "probability": 0.05
     }
   ]

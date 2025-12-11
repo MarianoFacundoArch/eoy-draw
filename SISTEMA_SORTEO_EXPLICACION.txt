@@ -1,527 +1,363 @@
 ================================================================================
-       SISTEMA DE SORTEO DE FIN DE AÑO - DOCUMENTACIÓN COMPLETA
+                    SISTEMA DE SORTEO DE FIN DE AÑO
+                         EXPLICACIÓN COMPLETA
 ================================================================================
 
-Fecha de generación: Diciembre 2024
+Este documento explica el funcionamiento del sistema de sorteo, incluyendo
+probabilidades, elegibilidad de premios, y cálculos detallados.
 
 ================================================================================
-                           1. RESUMEN DEL SISTEMA
+1. PREMIOS DISPONIBLES
 ================================================================================
 
-El sistema de sorteo asigna premios a los miembros de la empresa utilizando un
-algoritmo de selección aleatoria PONDERADA con probabilidades fijas. No existe
-límite de stock: cada premio puede ser ganado múltiples veces.
+El sistema cuenta con 10 tipos de premios, cada uno con una probabilidad fija:
 
-Características principales:
-- Probabilidades fijas por premio (no cambian durante el sorteo)
-- Sin límite de inventario (stock ilimitado)
-- Cada persona solo puede ganar UNA vez
-- Las probabilidades se NORMALIZAN según los premios elegibles de cada miembro
-- Sistema de miembros vinculados para evitar duplicados
+┌────┬────────────────────────────────┬─────────┬──────────────┬───────────────┐
+│ ID │ Premio                         │ Valor   │ Categoría    │ Probabilidad  │
+├────┼────────────────────────────────┼─────────┼──────────────┼───────────────┤
+│  1 │ Cesta de Navidad               │  $150   │ Gold         │      5%       │
+│  2 │ Masaje para dos                │  $100   │ Gold         │     15%       │
+│  3 │ Cena para dos                  │  $120   │ Gold         │     15%       │
+│  4 │ Parque de atracciones          │  $100   │ Gold         │     15%       │
+│  5 │ Cata de vino                   │  $100   │ Gold         │     15%       │
+│  6 │ Fin de semana sorpresa         │  $250   │ Grand        │      5%       │
+│  7 │ Tarjeta Amazon 75$             │   $75   │ Silver       │      5%       │
+│  8 │ Tarjeta Amazon 100$            │  $100   │ Silver       │     15%       │
+│  9 │ Viaje sorpresa para dos        │  $250   │ Grand        │      5%       │
+│ 10 │ Tu eliges, nosotros pagamos    │  $150   │ Gold         │      5%       │
+├────┴────────────────────────────────┴─────────┴──────────────┼───────────────┤
+│                                                        TOTAL │    100%       │
+└──────────────────────────────────────────────────────────────┴───────────────┘
 
-================================================================================
-                    2. PREMIOS Y PROBABILIDADES BASE
-================================================================================
-
-┌────┬──────────────────────────────┬─────────┬──────────────┐
-│ ID │ Premio                       │ Valor   │ Probabilidad │
-├────┼──────────────────────────────┼─────────┼──────────────┤
-│  1 │ Cesta de Navidad             │ $150    │     5.00%    │
-│  2 │ Masaje para dos              │ $100    │    15.00%    │
-│  3 │ Cena para dos                │ $120    │    15.00%    │
-│  4 │ Parque de atracciones        │ $100    │    15.00%    │
-│  5 │ Cata de vino                 │ $100    │    15.00%    │
-│  6 │ Fin de semana sorpresa       │ $250    │     5.00%    │
-│  7 │ Tarjeta Amazon 75$           │ $75     │     7.50%    │
-│  8 │ Tarjeta Amazon 100$          │ $100    │    17.50%    │
-│  9 │ Viaje sorpresa para dos      │ $250    │     5.00%    │
-├────┴──────────────────────────────┴─────────┼──────────────┤
-│                                       TOTAL │   100.00%    │
-└─────────────────────────────────────────────┴──────────────┘
+IMPORTANTE: No hay límite de stock. Cada premio puede ser ganado por múltiples
+personas sin restricción.
 
 ================================================================================
-            3. CÓMO FUNCIONA LA NORMALIZACIÓN DE PROBABILIDADES
+2. SISTEMA DE ELEGIBILIDAD
 ================================================================================
 
-Cuando un miembro NO tiene acceso a todos los premios, el sistema NORMALIZA
-las probabilidades para que sumen 100% entre los premios disponibles.
+Existen dos grupos de participantes según su elegibilidad:
 
-FÓRMULA:
-    Probabilidad_Efectiva(Premio) = Probabilidad_Base(Premio) / Suma_Probabilidades_Disponibles
+GRUPO A - ACCESO COMPLETO (61 personas únicas):
+  - Pueden optar a los 10 premios
+  - Premios elegibles: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  - Suma de probabilidades: 100%
 
-EJEMPLO - Miembro con acceso solo a [6, 7, 8, 9]:
+GRUPO B - ACCESO RESTRINGIDO (4 personas únicas):
+  - NO pueden optar a premios Grand (6 y 9)
+  - Premios elegibles: [1, 2, 3, 4, 5, 7, 8, 10]
+  - Suma de probabilidades base: 90%
 
-    Probabilidades base de esos premios:
-    - Premio 6: 5%
-    - Premio 7: 7.5%
-    - Premio 8: 17.5%
-    - Premio 9: 5%
-    - SUMA: 35%
-
-    Probabilidades NORMALIZADAS (dividiendo entre 0.35):
-    - Premio 6: 5% ÷ 35% = 14.29%
-    - Premio 7: 7.5% ÷ 35% = 21.43%
-    - Premio 8: 17.5% ÷ 35% = 50.00%
-    - Premio 9: 5% ÷ 35% = 14.29%
-    - TOTAL: 100%
-
-CONCLUSIÓN: Un miembro restringido a [6,7,8,9] tiene 50% de probabilidad de
-ganar la Tarjeta Amazon 100$, mucho más que el 17.5% de un miembro con
-acceso completo.
+Miembros del Grupo B (restringidos):
+  ┌─────────────────┬────────────────────┬─────────────────────────┐
+  │ Nombre          │ Equipo             │ Premios NO elegibles    │
+  ├─────────────────┼────────────────────┼─────────────────────────┤
+  │ Marcos Pérez    │ Esenciales         │ 6, 9 (premios Grand)    │
+  │ Alex Marín      │ Esenciales/StarSafe│ 6, 9 (premios Grand)    │
+  │ Hector Ros      │ Esenciales         │ 6, 9 (premios Grand)    │
+  │ Ander           │ Esenciales         │ 6, 9 (premios Grand)    │
+  └─────────────────┴────────────────────┴─────────────────────────┘
 
 ================================================================================
-              4. GRUPOS DE ELEGIBILIDAD Y SUS PROBABILIDADES
+3. ALGORITMO DE SELECCIÓN
 ================================================================================
 
-Se identifican 7 patrones diferentes de elegibilidad en la empresa:
+El sistema utiliza selección aleatoria ponderada:
 
-────────────────────────────────────────────────────────────────────────────────
-PATRÓN A: ACCESO COMPLETO [1,2,3,4,5,6,7,8,9]
-────────────────────────────────────────────────────────────────────────────────
-Suma base: 100% → Sin normalización
+1. Se filtran los premios según la elegibilidad del participante
+2. Se normalizan las probabilidades al 100%
+3. Se genera un número aleatorio entre 0 y la suma de probabilidades
+4. Se selecciona el premio usando distribución acumulativa
 
-┌─────────────────────────────────┬──────────────┐
-│ Premio                          │ Probabilidad │
-├─────────────────────────────────┼──────────────┤
-│ 1. Cesta de Navidad             │     5.00%    │
-│ 2. Masaje para dos              │    15.00%    │
-│ 3. Cena para dos                │    15.00%    │
-│ 4. Parque de atracciones        │    15.00%    │
-│ 5. Cata de vino                 │    15.00%    │
-│ 6. Fin de semana sorpresa       │     5.00%    │
-│ 7. Tarjeta Amazon 75$           │     7.50%    │
-│ 8. Tarjeta Amazon 100$          │    17.50%    │
-│ 9. Viaje sorpresa para dos      │     5.00%    │
-└─────────────────────────────────┴──────────────┘
-
-Miembros (26 personas):
-- ESENCIALES: Ada, Jordi Vallverdú
-- TROOPERS: Eva, Jero Fernández, Marc Aguado, Miguel Delgado, Joaquim Salat
-- MARKETING: Cristina Sureda
-- FASTEVO: Elliot
-- DOOYU: Marc Aguado, Jaume Mora
-- CUBEPATH: Marc Iglesias, Pau Iglesias
-- DEA: Victor Ros, Pol Navarro, Aitor Diaz
-- ESTUDIOS: Francisco Santos
-- MAGAS: María Perez, Maria Mancilla, Raquel
-- ONLYSAFE: Javi, Pere, Tomas, Dani, Elliot, Mario
-
-────────────────────────────────────────────────────────────────────────────────
-PATRÓN B: SOLO GRANDES + AMAZON [6,7,8,9]
-────────────────────────────────────────────────────────────────────────────────
-Suma base: 35% → Normalización ×2.857
-
-┌─────────────────────────────────┬──────────────┐
-│ Premio                          │ Probabilidad │
-├─────────────────────────────────┼──────────────┤
-│ 6. Fin de semana sorpresa       │    14.29%    │
-│ 7. Tarjeta Amazon 75$           │    21.43%    │
-│ 8. Tarjeta Amazon 100$          │    50.00%    │  ← ¡MUY ALTA!
-│ 9. Viaje sorpresa para dos      │    14.29%    │
-└─────────────────────────────────┴──────────────┘
-
-Miembros (7 personas):
-- TROOPERS: Marcos Valdez, Yoryi
-- MARKETING: Carlos Martínez, Pedro Delgado, Richard
-- FASTEVO: Orlando Mina
-- STARSAFE: Pilar
-
-────────────────────────────────────────────────────────────────────────────────
-PATRÓN C: CENA + GRANDES + AMAZON [3,6,7,8,9]
-────────────────────────────────────────────────────────────────────────────────
-Suma base: 50% → Normalización ×2.0
-
-┌─────────────────────────────────┬──────────────┐
-│ Premio                          │ Probabilidad │
-├─────────────────────────────────┼──────────────┤
-│ 3. Cena para dos                │    30.00%    │
-│ 6. Fin de semana sorpresa       │    10.00%    │
-│ 7. Tarjeta Amazon 75$           │    15.00%    │
-│ 8. Tarjeta Amazon 100$          │    35.00%    │
-│ 9. Viaje sorpresa para dos      │    10.00%    │
-└─────────────────────────────────┴──────────────┘
-
-Miembros (21 personas):
-- DOOYU: Daniel Rodriguez
-- FRAUDE: Diego, William
-- STARSAFE: Vero
-- SUPPORT (17 personas): Diego, Alejandra Henao, Alixander, Carlos Tamayo,
-  Cindy Benítez, Esteban Santa, Johan M, Karol C, Laura Z, María V,
-  Maribel, Michael Cano, Moises Cardona, Nelly, Nuviangi, Rosana Gomez, William
-
-────────────────────────────────────────────────────────────────────────────────
-PATRÓN D: SIN PREMIOS GRANDES [1,2,3,4,5,7,8]
-────────────────────────────────────────────────────────────────────────────────
-Suma base: 90% → Normalización ×1.111
-
-┌─────────────────────────────────┬──────────────┐
-│ Premio                          │ Probabilidad │
-├─────────────────────────────────┼──────────────┤
-│ 1. Cesta de Navidad             │     5.56%    │
-│ 2. Masaje para dos              │    16.67%    │
-│ 3. Cena para dos                │    16.67%    │
-│ 4. Parque de atracciones        │    16.67%    │
-│ 5. Cata de vino                 │    16.67%    │
-│ 7. Tarjeta Amazon 75$           │     8.33%    │
-│ 8. Tarjeta Amazon 100$          │    19.44%    │
-└─────────────────────────────────┴──────────────┘
-NO PUEDEN GANAR: 6 (Fin de semana), 9 (Viaje sorpresa)
-
-Miembros (3 personas):
-- ESENCIALES: Marcos Pérez, Hector Ros, Ander
-
-────────────────────────────────────────────────────────────────────────────────
-PATRÓN E: MUY RESTRINGIDO [3,7,8]
-────────────────────────────────────────────────────────────────────────────────
-Suma base: 40% → Normalización ×2.5
-
-┌─────────────────────────────────┬──────────────┐
-│ Premio                          │ Probabilidad │
-├─────────────────────────────────┼──────────────┤
-│ 3. Cena para dos                │    37.50%    │
-│ 7. Tarjeta Amazon 75$           │    18.75%    │
-│ 8. Tarjeta Amazon 100$          │    43.75%    │  ← ¡MUY ALTA!
-└─────────────────────────────────┴──────────────┘
-NO PUEDEN GANAR: 1, 2, 4, 5, 6, 9
-
-Miembros (1 persona, aparece en 2 equipos):
-- ESENCIALES: Alex Marín
-- STARSAFE: Alex Marín (vinculado)
-
-────────────────────────────────────────────────────────────────────────────────
-PATRÓN F: SIN CESTA [2,3,4,5,6,7,8,9]
-────────────────────────────────────────────────────────────────────────────────
-Suma base: 95% → Normalización ×1.053
-
-┌─────────────────────────────────┬──────────────┐
-│ Premio                          │ Probabilidad │
-├─────────────────────────────────┼──────────────┤
-│ 2. Masaje para dos              │    15.79%    │
-│ 3. Cena para dos                │    15.79%    │
-│ 4. Parque de atracciones        │    15.79%    │
-│ 5. Cata de vino                 │    15.79%    │
-│ 6. Fin de semana sorpresa       │     5.26%    │
-│ 7. Tarjeta Amazon 75$           │     7.89%    │
-│ 8. Tarjeta Amazon 100$          │    18.42%    │
-│ 9. Viaje sorpresa para dos      │     5.26%    │
-└─────────────────────────────────┴──────────────┘
-NO PUEDEN GANAR: 1 (Cesta de Navidad)
-
-Miembros (9 personas):
-- ESENCIALES: Laura Hazel, Walter Urban
-- MARKETING: Sergio Gallego
-- DEA: Xana S. Diez
-- ESTUDIOS: Camilo Taba, Jeronimo
-- FRAUDE: Eugenio, Hélène Gormezano
-- MAGAS: Laura Urban
-
-────────────────────────────────────────────────────────────────────────────────
-PATRÓN G: LIMITADO [3,4,6,7,8,9]
-────────────────────────────────────────────────────────────────────────────────
-Suma base: 65% → Normalización ×1.538
-
-┌─────────────────────────────────┬──────────────┐
-│ Premio                          │ Probabilidad │
-├─────────────────────────────────┼──────────────┤
-│ 3. Cena para dos                │    23.08%    │
-│ 4. Parque de atracciones        │    23.08%    │
-│ 6. Fin de semana sorpresa       │     7.69%    │
-│ 7. Tarjeta Amazon 75$           │    11.54%    │
-│ 8. Tarjeta Amazon 100$          │    26.92%    │
-│ 9. Viaje sorpresa para dos      │     7.69%    │
-└─────────────────────────────────┴──────────────┘
-NO PUEDEN GANAR: 1 (Cesta), 2 (Masaje), 5 (Cata vino)
-
-Miembros (2 personas):
-- MARKETING: Carla Volk
-- FASTEVO: Faku
+Código del algoritmo:
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  const totalProbability = availablePrizeTypes.reduce(                       │
+│    (sum, prize) => sum + prize.probability, 0                               │
+│  );                                                                         │
+│  const random = Math.random() * totalProbability;                           │
+│  let cumulative = 0;                                                        │
+│  for (const prize of availablePrizeTypes) {                                 │
+│    cumulative += prize.probability;                                         │
+│    if (random <= cumulative) return prize;                                  │
+│  }                                                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
 
 ================================================================================
-        5. TABLA COMPLETA: PROBABILIDAD POR MIEMBRO Y PREMIO
+4. NORMALIZACIÓN DE PROBABILIDADES
 ================================================================================
 
-Leyenda de Patrones:
-A = Acceso completo [1-9]
-B = [6,7,8,9]
-C = [3,6,7,8,9]
-D = [1,2,3,4,5,7,8]
-E = [3,7,8]
-F = [2,3,4,5,6,7,8,9]
-G = [3,4,6,7,8,9]
+Cuando un participante tiene premios restringidos, las probabilidades se
+normalizan automáticamente dividiendo entre la suma de probabilidades disponibles.
 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                    EQUIPO: ESENCIALES                                                   │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Marcos Pérez     │ D       │  5.56% │ 16.67% │ 16.67% │ 16.67% │ 16.67% │   -    │  8.33% │ 19.44% │   -    │
-│ Alex Marín *     │ E       │   -    │   -    │ 37.50% │   -    │   -    │   -    │ 18.75% │ 43.75% │   -    │
-│ Hector Ros       │ D       │  5.56% │ 16.67% │ 16.67% │ 16.67% │ 16.67% │   -    │  8.33% │ 19.44% │   -    │
-│ Ada              │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Laura Hazel      │ F       │   -    │ 15.79% │ 15.79% │ 15.79% │ 15.79% │  5.26% │  7.89% │ 18.42% │  5.26% │
-│ Walter Urban     │ F       │   -    │ 15.79% │ 15.79% │ 15.79% │ 15.79% │  5.26% │  7.89% │ 18.42% │  5.26% │
-│ Jordi Vallverdú  │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Ander            │ D       │  5.56% │ 16.67% │ 16.67% │ 16.67% │ 16.67% │   -    │  8.33% │ 19.44% │   -    │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-* Alex Marín está vinculado con el ID 46 en StarSafe (misma persona)
+GRUPO A - Sin normalización necesaria:
+  Suma de probabilidades = 100%
+  Factor de normalización = 1.0
 
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                      EQUIPO: TROOPERS                                                   │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Eva              │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Jero Fernández   │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Marc Aguado *    │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Marcos Valdez    │ B       │   -    │   -    │   -    │   -    │   -    │ 14.29% │ 21.43% │ 50.00% │ 14.29% │
-│ Miguel Delgado   │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Joaquim Salat    │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Yoryi            │ B       │   -    │   -    │   -    │   -    │   -    │ 14.29% │ 21.43% │ 50.00% │ 14.29% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-* Marc Aguado está vinculado con el ID 24 en Dooyu (misma persona)
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                      EQUIPO: MARKETING                                                  │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Carla Volk       │ G       │   -    │   -    │ 23.08% │ 23.08% │   -    │  7.69% │ 11.54% │ 26.92% │  7.69% │
-│ Carlos Martínez  │ B       │   -    │   -    │   -    │   -    │   -    │ 14.29% │ 21.43% │ 50.00% │ 14.29% │
-│ Cristina Sureda  │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Pedro Delgado    │ B       │   -    │   -    │   -    │   -    │   -    │ 14.29% │ 21.43% │ 50.00% │ 14.29% │
-│ Richard          │ B       │   -    │   -    │   -    │   -    │   -    │ 14.29% │ 21.43% │ 50.00% │ 14.29% │
-│ Sergio Gallego   │ F       │   -    │ 15.79% │ 15.79% │ 15.79% │ 15.79% │  5.26% │  7.89% │ 18.42% │  5.26% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                       EQUIPO: FASTEVO                                                   │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Faku             │ G       │   -    │   -    │ 23.08% │ 23.08% │   -    │  7.69% │ 11.54% │ 26.92% │  7.69% │
-│ Elliot *         │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Orlando Mina     │ B       │   -    │   -    │   -    │   -    │   -    │ 14.29% │ 21.43% │ 50.00% │ 14.29% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-* Elliot está vinculado con el ID 68 en ONLYSAFE (misma persona)
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                        EQUIPO: DOOYU                                                    │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Marc Aguado *    │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Jaume Mora       │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Daniel Rodriguez │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-* Marc Aguado está vinculado con el ID 10 en Troopers (misma persona)
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                      EQUIPO: CUBEPATH                                                   │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Marc Iglesias    │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Pau Iglesias     │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                         EQUIPO: DEA                                                     │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Victor Ros       │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Pol Navarro      │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Aitor Diaz       │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Xana S. Diez     │ F       │   -    │ 15.79% │ 15.79% │ 15.79% │ 15.79% │  5.26% │  7.89% │ 18.42% │  5.26% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                      EQUIPO: ESTUDIOS                                                   │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Camilo Taba      │ F       │   -    │ 15.79% │ 15.79% │ 15.79% │ 15.79% │  5.26% │  7.89% │ 18.42% │  5.26% │
-│ Jeronimo         │ F       │   -    │ 15.79% │ 15.79% │ 15.79% │ 15.79% │  5.26% │  7.89% │ 18.42% │  5.26% │
-│ Francisco Santos │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                       EQUIPO: FRAUDE                                                    │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Diego *          │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ William *        │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Eugenio          │ F       │   -    │ 15.79% │ 15.79% │ 15.79% │ 15.79% │  5.26% │  7.89% │ 18.42% │  5.26% │
-│ Hélène Gormezano │ F       │   -    │ 15.79% │ 15.79% │ 15.79% │ 15.79% │  5.26% │  7.89% │ 18.42% │  5.26% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-* Diego está vinculado con el ID 47 en Support (misma persona)
-* William está vinculado con el ID 63 en Support (misma persona)
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                        EQUIPO: MAGAS                                                    │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ María Perez      │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Maria Mancilla   │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Raquel           │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Laura Urban      │ F       │   -    │ 15.79% │ 15.79% │ 15.79% │ 15.79% │  5.26% │  7.89% │ 18.42% │  5.26% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                      EQUIPO: STARSAFE                                                   │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Pilar            │ B       │   -    │   -    │   -    │   -    │   -    │ 14.29% │ 21.43% │ 50.00% │ 14.29% │
-│ Vero             │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Alex Marín *     │ E       │   -    │   -    │ 37.50% │   -    │   -    │   -    │ 18.75% │ 43.75% │   -    │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-* Alex Marín está vinculado con el ID 2 en Esenciales (misma persona)
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                      EQUIPO: ONLYSAFE                                                   │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Javi             │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Pere             │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Tomas            │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Dani             │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Elliot *         │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-│ Mario            │ A       │  5.00% │ 15.00% │ 15.00% │ 15.00% │ 15.00% │  5.00% │  7.50% │ 17.50% │  5.00% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-* Elliot está vinculado con el ID 22 en Fastevo (misma persona)
-
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                       EQUIPO: SUPPORT                                                   │
-├──────────────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┤
-│ Miembro          │ Patrón  │ P1     │ P2     │ P3     │ P4     │ P5     │ P6     │ P7     │ P8     │ P9     │
-├──────────────────┼─────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-│ Diego *          │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Alejandra Henao  │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Alixander        │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Carlos Tamayo    │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Cindy Benítez    │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Esteban Santa    │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Johan M          │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Karol C          │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Laura Z          │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ María V          │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Maribel          │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Michael Cano     │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Moises Cardona   │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Nelly            │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Nuviangi         │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ Rosana Gomez     │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-│ William *        │ C       │   -    │   -    │ 30.00% │   -    │   -    │ 10.00% │ 15.00% │ 35.00% │ 10.00% │
-└──────────────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
-* Diego está vinculado con el ID 36 en Fraude (misma persona)
-* William está vinculado con el ID 37 en Fraude (misma persona)
+GRUPO B - Requiere normalización:
+  Suma de probabilidades base = 90% (excluye premios 6 y 9)
+  Factor de normalización = 100% / 90% = 1.1111
 
 ================================================================================
-                6. MIEMBROS VINCULADOS (EVITAR DUPLICADOS)
+5. PROBABILIDADES EFECTIVAS POR GRUPO
 ================================================================================
 
-El sistema detecta personas que aparecen en múltiples equipos y garantiza
-que solo puedan ganar UNA vez. Cuando una persona vinculada gana, todas sus
-apariciones en otros equipos quedan automáticamente marcadas como "ya ganó".
+┌────────────────────────────────────┬─────────────────┬─────────────────┐
+│ Premio                             │ Grupo A (61p)   │ Grupo B (4p)    │
+│                                    │ Acceso Completo │ Restringido     │
+├────────────────────────────────────┼─────────────────┼─────────────────┤
+│ 1. Cesta de Navidad                │      5.00%      │      5.56%      │
+│ 2. Masaje para dos                 │     15.00%      │     16.67%      │
+│ 3. Cena para dos                   │     15.00%      │     16.67%      │
+│ 4. Parque de atracciones           │     15.00%      │     16.67%      │
+│ 5. Cata de vino                    │     15.00%      │     16.67%      │
+│ 6. Fin de semana sorpresa          │      5.00%      │      0.00%      │
+│ 7. Tarjeta Amazon 75$              │      5.00%      │      5.56%      │
+│ 8. Tarjeta Amazon 100$             │     15.00%      │     16.67%      │
+│ 9. Viaje sorpresa para dos         │      5.00%      │      0.00%      │
+│ 10. Tu eliges, nosotros pagamos    │      5.00%      │      5.56%      │
+├────────────────────────────────────┼─────────────────┼─────────────────┤
+│ TOTAL                              │    100.00%      │    100.03%*     │
+└────────────────────────────────────┴─────────────────┴─────────────────┘
 
-┌──────────────────┬────────────────┬──────────────────┬────────────────┐
-│ Persona          │ Equipo 1       │ Equipo 2         │ IDs vinculados │
-├──────────────────┼────────────────┼──────────────────┼────────────────┤
-│ Marc Aguado      │ Troopers (10)  │ Dooyu (24)       │ 10 ↔ 24        │
-│ Elliot           │ Fastevo (22)   │ ONLYSAFE (68)    │ 22 ↔ 68        │
-│ Alex Marín       │ Esenciales (2) │ StarSafe (46)    │ 2 ↔ 46         │
-│ Diego            │ Fraude (36)    │ Support (47)     │ 36 ↔ 47        │
-│ William          │ Fraude (37)    │ Support (63)     │ 37 ↔ 63        │
-└──────────────────┴────────────────┴──────────────────┴────────────────┘
+* Diferencia por redondeo en presentación. El algoritmo usa valores exactos.
 
-================================================================================
-                  7. RESUMEN DE CONTEO POR PATRÓN
-================================================================================
-
-┌─────────┬─────────────────────────────────┬──────────────┬─────────────────┐
-│ Patrón  │ Descripción                     │ Miembros     │ Premio más      │
-│         │                                 │ únicos       │ probable        │
-├─────────┼─────────────────────────────────┼──────────────┼─────────────────┤
-│ A       │ Acceso completo [1-9]           │ 26 personas  │ Amazon 100$ 17.5%│
-│ B       │ Solo grandes+Amazon [6,7,8,9]   │  7 personas  │ Amazon 100$ 50% │
-│ C       │ Cena+grandes+Amazon [3,6,7,8,9] │ 21 personas  │ Amazon 100$ 35% │
-│ D       │ Sin grandes [1-5,7,8]           │  3 personas  │ Amazon 100$ 19.4%│
-│ E       │ Muy restringido [3,7,8]         │  1 persona   │ Amazon 100$ 43.8%│
-│ F       │ Sin cesta [2-9]                 │  9 personas  │ Amazon 100$ 18.4%│
-│ G       │ Limitado [3,4,6,7,8,9]          │  2 personas  │ Amazon 100$ 26.9%│
-├─────────┴─────────────────────────────────┼──────────────┼─────────────────┤
-│                               TOTAL       │ 69 personas  │                 │
-│                          (5 vinculados)   │ 64 premios   │                 │
-└───────────────────────────────────────────┴──────────────┴─────────────────┘
+Cálculos para Grupo B (normalización):
+  - Premio base 5%:  5 ÷ 90 × 100 = 5.556%  (premios 1, 7, 10)
+  - Premio base 15%: 15 ÷ 90 × 100 = 16.667% (premios 2, 3, 4, 5, 8)
 
 ================================================================================
-                8. DISTRIBUCIÓN ESPERADA DE PREMIOS
+6. PARTICIPANTES Y EQUIPOS
 ================================================================================
 
-Basándose en las probabilidades y los patrones de elegibilidad, la distribución
-esperada aproximada de premios para 64 sorteos sería:
+Total de registros en el sistema: 70 miembros
+Miembros únicos (descontando duplicados): 65 personas
 
-┌──────────────────────────────┬──────────────────┐
-│ Premio                       │ Ganadores aprox. │
-├──────────────────────────────┼──────────────────┤
-│ 1. Cesta de Navidad          │     2-3          │
-│ 2. Masaje para dos           │     7-9          │
-│ 3. Cena para dos             │    12-15         │  ← Boost por Support
-│ 4. Parque de atracciones     │     7-9          │
-│ 5. Cata de vino              │     7-9          │
-│ 6. Fin de semana sorpresa    │     4-6          │
-│ 7. Tarjeta Amazon 75$        │     6-8          │
-│ 8. Tarjeta Amazon 100$       │    14-18         │  ← El más común
-│ 9. Viaje sorpresa para dos   │     4-6          │
-└──────────────────────────────┴──────────────────┘
-
-Nota: La "Cena para dos" y "Tarjeta Amazon 100$" son más frecuentes porque
-son los únicos premios comunes disponibles para el equipo Support (21 personas)
-que tienen el patrón C [3,6,7,8,9].
+EQUIPOS:
+┌───────────────┬──────────┬───────────┬──────────────────────────────────────┐
+│ Equipo        │ Miembros │ Color     │ Todos acceso completo excepto        │
+├───────────────┼──────────┼───────────┼──────────────────────────────────────┤
+│ Troopers      │    7     │ Red       │ Sí                                   │
+│ Marketing     │    6     │ Pink      │ Sí                                   │
+│ Dea           │    4     │ Emerald   │ Sí                                   │
+│ Esenciales    │    8     │ Blue      │ Marcos, Alex, Hector, Ander (restr.) │
+│ Fastevo       │    3     │ Amber     │ Sí                                   │
+│ ONLYSAFE      │    6     │ Lime      │ Sí                                   │
+│ Magas         │    4     │ Fuchsia   │ Sí                                   │
+│ Cubepath      │    2     │ Cyan      │ Sí                                   │
+│ Estudios      │    3     │ Sky       │ Sí                                   │
+│ Fraude        │    4     │ Orange    │ Sí                                   │
+│ StarSafe      │    3     │ Yellow    │ Alex (restringido)                   │
+│ Dooyu         │    3     │ Purple    │ Sí                                   │
+│ Support       │   17     │ Teal      │ Sí                                   │
+├───────────────┼──────────┼───────────┼──────────────────────────────────────┤
+│ TOTAL         │   70     │           │                                      │
+└───────────────┴──────────┴───────────┴──────────────────────────────────────┘
 
 ================================================================================
-                      9. FUNCIONAMIENTO TÉCNICO
+7. LISTA COMPLETA DE MIEMBROS POR EQUIPO
 ================================================================================
 
-ALGORITMO DE SELECCIÓN:
+Todos los miembros tienen ACCESO COMPLETO a los 10 premios,
+excepto los 4 marcados con (RESTRINGIDO).
 
-1. Se obtienen los premios elegibles del miembro
-2. Se suman las probabilidades base de esos premios
-3. Se genera un número aleatorio entre 0 y la suma total
-4. Se recorren los premios acumulando probabilidades
-5. El premio donde el acumulado supera el aleatorio es el ganador
+ESENCIALES (⭐):
+  - Marcos Pérez (RESTRINGIDO) [1,2,3,4,5,7,8,10]
+  - Alex Marín (RESTRINGIDO) [1,2,3,4,5,7,8,10] - vinculado con StarSafe
+  - Hector Ros (RESTRINGIDO) [1,2,3,4,5,7,8,10]
+  - Ada
+  - Laura Hazel
+  - Walter Urban
+  - Jordi Vallverdú
+  - Ander (RESTRINGIDO) [1,2,3,4,5,7,8,10]
 
-CÓDIGO SIMPLIFICADO:
+TROOPERS (🎖️):
+  - Eva
+  - Jero Fernández
+  - Marc Aguado - vinculado con Dooyu
+  - Marcos Valdez
+  - Miguel Delgado
+  - Joaquim Salat
+  - Yoryi
 
-    totalProbabilidad = suma(premio.probabilidad para premio en elegibles)
-    aleatorio = Math.random() * totalProbabilidad
-    acumulado = 0
+MARKETING (📢):
+  - Carla Volk
+  - Carlos Martínez
+  - Cristina Sureda
+  - Pedro Delgado
+  - Richard
+  - Sergio Gallego
 
-    para cada premio en elegibles:
-        acumulado += premio.probabilidad
-        si aleatorio <= acumulado:
-            return premio  // ¡GANADOR!
+FASTEVO (⚡):
+  - Faku
+  - Elliot - vinculado con ONLYSAFE
+  - Orlando Mina
 
-PERSISTENCIA:
-- El estado se guarda en localStorage del navegador
+DEA (🦌):
+  - Victor Ros
+  - Pol Navarro
+  - Aitor Diaz
+  - Xana S. Diez
+
+DOOYU (🔮):
+  - Marc Aguado - vinculado con Troopers
+  - Jaume Mora
+  - Daniel Rodriguez
+
+CUBEPATH (🧊):
+  - Marc Iglesias
+  - Pau Iglesias
+
+ESTUDIOS (📚):
+  - Camilo Taba
+  - Jeronimo
+  - Francisco Santos
+
+FRAUDE (🔍):
+  - Diego - vinculado con Support
+  - William - vinculado con Support
+  - Eugenio
+  - Hélène Gormezano
+
+MAGAS (✨):
+  - María Perez
+  - Maria Mancilla
+  - Raquel
+  - Laura Urban
+
+STARSAFE (🌟):
+  - Pilar
+  - Vero
+  - Alex Marín (RESTRINGIDO) [1,2,3,4,5,7,8,10] - vinculado con Esenciales
+
+ONLYSAFE (🛡️):
+  - Javi
+  - Pere
+  - Tomas
+  - Dani
+  - Elliot - vinculado con Fastevo
+  - Mario
+
+SUPPORT (🤝):
+  - Diego - vinculado con Fraude
+  - Alejandra Henao
+  - Alixander
+  - Carlos Tamayo
+  - Cindy Benítez
+  - Esteban Santa
+  - Johan M
+  - Karol C
+  - Laura Z
+  - María V
+  - Maribel
+  - Michael Cano
+  - Moises Cardona
+  - Nelly
+  - Nuviangi
+  - Rosana Gomez
+  - William - vinculado con Fraude
+
+================================================================================
+8. SISTEMA DE MIEMBROS VINCULADOS
+================================================================================
+
+Algunas personas pertenecen a múltiples equipos. Para evitar que ganen más de
+una vez, existe un sistema de vinculación:
+
+┌─────────────────┬────────────────────────────┬────────────────────────────┐
+│ Persona         │ Registro 1                 │ Registro 2                 │
+├─────────────────┼────────────────────────────┼────────────────────────────┤
+│ Marc Aguado     │ ID 10 (Troopers)           │ ID 24 (Dooyu)              │
+│ Alex Marín      │ ID 2 (Esenciales)          │ ID 46 (StarSafe)           │
+│ Elliot          │ ID 22 (Fastevo)            │ ID 68 (ONLYSAFE)           │
+│ Diego           │ ID 36 (Fraude)             │ ID 47 (Support)            │
+│ William         │ ID 37 (Fraude)             │ ID 63 (Support)            │
+└─────────────────┴────────────────────────────┴────────────────────────────┘
+
+Cuando una persona vinculada gana un premio:
+- Ambos registros se marcan como "ya ganó"
+- No puede volver a participar desde ninguno de sus equipos
+
+================================================================================
+9. DISTRIBUCIÓN ESPERADA DE PREMIOS
+================================================================================
+
+Con 65 participantes únicos y sin límite de stock, la distribución esperada
+de premios sería aproximadamente:
+
+Para los 61 participantes del Grupo A (probabilidades base):
+┌────────────────────────────────────┬─────────────┬───────────────────────┐
+│ Premio                             │ Probabilidad│ Esperados (de 61)     │
+├────────────────────────────────────┼─────────────┼───────────────────────┤
+│ 1. Cesta de Navidad                │      5%     │   ~3.05 personas      │
+│ 2. Masaje para dos                 │     15%     │   ~9.15 personas      │
+│ 3. Cena para dos                   │     15%     │   ~9.15 personas      │
+│ 4. Parque de atracciones           │     15%     │   ~9.15 personas      │
+│ 5. Cata de vino                    │     15%     │   ~9.15 personas      │
+│ 6. Fin de semana sorpresa          │      5%     │   ~3.05 personas      │
+│ 7. Tarjeta Amazon 75$              │      5%     │   ~3.05 personas      │
+│ 8. Tarjeta Amazon 100$             │     15%     │   ~9.15 personas      │
+│ 9. Viaje sorpresa para dos         │      5%     │   ~3.05 personas      │
+│ 10. Tu eliges, nosotros pagamos    │      5%     │   ~3.05 personas      │
+└────────────────────────────────────┴─────────────┴───────────────────────┘
+
+Para los 4 participantes del Grupo B (probabilidades normalizadas):
+┌────────────────────────────────────┬─────────────┬───────────────────────┐
+│ Premio                             │ Prob. Norm. │ Esperados (de 4)      │
+├────────────────────────────────────┼─────────────┼───────────────────────┤
+│ 1. Cesta de Navidad                │     5.56%   │   ~0.22 personas      │
+│ 2. Masaje para dos                 │    16.67%   │   ~0.67 personas      │
+│ 3. Cena para dos                   │    16.67%   │   ~0.67 personas      │
+│ 4. Parque de atracciones           │    16.67%   │   ~0.67 personas      │
+│ 5. Cata de vino                    │    16.67%   │   ~0.67 personas      │
+│ 7. Tarjeta Amazon 75$              │     5.56%   │   ~0.22 personas      │
+│ 8. Tarjeta Amazon 100$             │    16.67%   │   ~0.67 personas      │
+│ 10. Tu eliges, nosotros pagamos    │     5.56%   │   ~0.22 personas      │
+└────────────────────────────────────┴─────────────┴───────────────────────┘
+
+DISTRIBUCIÓN TOTAL ESPERADA (65 participantes):
+┌────────────────────────────────────┬───────────────────────────────────────┐
+│ Premio                             │ Total Esperado                        │
+├────────────────────────────────────┼───────────────────────────────────────┤
+│ 1. Cesta de Navidad                │   ~3.27 personas  (3.05 + 0.22)       │
+│ 2. Masaje para dos                 │   ~9.82 personas  (9.15 + 0.67)       │
+│ 3. Cena para dos                   │   ~9.82 personas  (9.15 + 0.67)       │
+│ 4. Parque de atracciones           │   ~9.82 personas  (9.15 + 0.67)       │
+│ 5. Cata de vino                    │   ~9.82 personas  (9.15 + 0.67)       │
+│ 6. Fin de semana sorpresa          │   ~3.05 personas  (solo Grupo A)      │
+│ 7. Tarjeta Amazon 75$              │   ~3.27 personas  (3.05 + 0.22)       │
+│ 8. Tarjeta Amazon 100$             │   ~9.82 personas  (9.15 + 0.67)       │
+│ 9. Viaje sorpresa para dos         │   ~3.05 personas  (solo Grupo A)      │
+│ 10. Tu eliges, nosotros pagamos    │   ~3.27 personas  (3.05 + 0.22)       │
+├────────────────────────────────────┼───────────────────────────────────────┤
+│ TOTAL                              │        65 personas                    │
+└────────────────────────────────────┴───────────────────────────────────────┘
+
+================================================================================
+10. PERSISTENCIA DE DATOS
+================================================================================
+
+El sistema guarda el estado en localStorage del navegador:
 - Clave: 'prize-draw-state-v4'
-- Se puede reiniciar desde el botón oculto en la pantalla principal
+- Datos guardados: Lista de ganadores con timestamp
+
+Cada ganador registra:
+- ID y nombre del miembro
+- ID y nombre del equipo
+- Premio ganado (tipo completo)
+- Marca de tiempo
 
 ================================================================================
-                           10. NOTAS FINALES
+11. RESUMEN EJECUTIVO
 ================================================================================
 
-- El sistema NO tiene límite de stock: un mismo premio puede salir múltiples veces
-- Las probabilidades son FIJAS y no cambian durante el sorteo
-- La animación de la ruleta muestra SOLO los premios elegibles para cada persona
-- Una vez que alguien gana, queda deshabilitado en todos los equipos donde aparece
-- El premio más probable para TODOS es la Tarjeta Amazon 100$ (entre 17.5% y 50%)
-- Los premios "grandes" (Fin de semana, Viaje) tienen menor probabilidad (5-14%)
+- 10 premios disponibles sin límite de stock
+- 65 participantes únicos (70 registros, 5 duplicados vinculados)
+- 61 personas pueden ganar cualquier premio (Grupo A)
+- 4 personas no pueden ganar premios Grand (Grupo B)
+- Selección por probabilidad ponderada
+- Normalización automática para elegibilidad parcial
+- Sistema anti-duplicados mediante vinculación de miembros
 
 ================================================================================
-                    FIN DEL DOCUMENTO
+                         Documento generado: Diciembre 2024
 ================================================================================

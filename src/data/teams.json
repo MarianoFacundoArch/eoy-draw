@@ -6,34 +6,13 @@
       "emoji": "🎖️",
       "color": "red",
       "members": [
-        {
-          "id": 8,
-          "name": "Eva",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 9,
-          "name": "Jero Fernández",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 10,
-          "name": "Marc Aguado",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-          "linkedMemberIds": [24]
-        },
-        { "id": 11, "name": "Marcos Valdez", "eligiblePrizeTypeIds": [6, 7, 8, 9] },
-        {
-          "id": 12,
-          "name": "Miguel Delgado",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 13,
-          "name": "Joaquim Salat",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        { "id": 14, "name": "Yoryi", "eligiblePrizeTypeIds": [6, 7, 8, 9] }
+        { "id": 8, "name": "Eva", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 9, "name": "Jero Fernández", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 10, "name": "Marc Aguado", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "linkedMemberIds": [24] },
+        { "id": 11, "name": "Marcos Valdez", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 12, "name": "Miguel Delgado", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 13, "name": "Joaquim Salat", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 14, "name": "Yoryi", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -42,24 +21,12 @@
       "emoji": "📢",
       "color": "pink",
       "members": [
-        {
-          "id": 15,
-          "name": "Carla Volk",
-          "eligiblePrizeTypeIds": [3, 4, 6, 7, 8, 9]
-        },
-        { "id": 16, "name": "Carlos Martínez", "eligiblePrizeTypeIds": [6, 7, 8, 9] },
-        {
-          "id": 17,
-          "name": "Cristina Sureda",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        { "id": 18, "name": "Pedro Delgado", "eligiblePrizeTypeIds": [6, 7, 8, 9] },
-        { "id": 19, "name": "Richard", "eligiblePrizeTypeIds": [6, 7, 8, 9] },
-        {
-          "id": 20,
-          "name": "Sergio Gallego",
-          "eligiblePrizeTypeIds": [2, 3, 4, 5, 6, 7, 8, 9]
-        }
+        { "id": 15, "name": "Carla Volk", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 16, "name": "Carlos Martínez", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 17, "name": "Cristina Sureda", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 18, "name": "Pedro Delgado", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 19, "name": "Richard", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 20, "name": "Sergio Gallego", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -68,26 +35,10 @@
       "emoji": "🦌",
       "color": "emerald",
       "members": [
-        {
-          "id": 29,
-          "name": "Victor Ros",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 30,
-          "name": "Pol Navarro",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 31,
-          "name": "Aitor Diaz",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 32,
-          "name": "Xana S. Diez",
-          "eligiblePrizeTypeIds": [2, 3, 4, 5, 6, 7, 8, 9]
-        }
+        { "id": 29, "name": "Victor Ros", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 30, "name": "Pol Navarro", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 31, "name": "Aitor Diaz", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 32, "name": "Xana S. Diez", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -96,42 +47,14 @@
       "emoji": "⭐",
       "color": "blue",
       "members": [
-        {
-          "id": 1,
-          "name": "Marcos Pérez",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 7, 8]
-        },
-        { "id": 2, "name": "Alex Marín", "eligiblePrizeTypeIds": [3, 7, 8], "linkedMemberIds": [46] },
-        {
-          "id": 3,
-          "name": "Hector Ros",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 7, 8]
-        },
-        {
-          "id": 4,
-          "name": "Ada",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 5,
-          "name": "Laura Hazel",
-          "eligiblePrizeTypeIds": [2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 6,
-          "name": "Walter Urban",
-          "eligiblePrizeTypeIds": [2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 7,
-          "name": "Jordi Vallverdú",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 70,
-          "name": "Ander",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 7, 8]
-        }
+        { "id": 1, "name": "Marcos Pérez", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 7, 8, 10] },
+        { "id": 2, "name": "Alex Marín", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 7, 8, 10], "linkedMemberIds": [46] },
+        { "id": 3, "name": "Hector Ros", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 7, 8, 10] },
+        { "id": 4, "name": "Ada", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 5, "name": "Laura Hazel", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 6, "name": "Walter Urban", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 7, "name": "Jordi Vallverdú", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 70, "name": "Ander", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 7, 8, 10] }
       ]
     },
     {
@@ -140,14 +63,9 @@
       "emoji": "⚡",
       "color": "amber",
       "members": [
-        { "id": 21, "name": "Faku", "eligiblePrizeTypeIds": [3, 4, 6, 7, 8, 9] },
-        {
-          "id": 22,
-          "name": "Elliot",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-          "linkedMemberIds": [68]
-        },
-        { "id": 23, "name": "Orlando Mina", "eligiblePrizeTypeIds": [6, 7, 8, 9] }
+        { "id": 21, "name": "Faku", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 22, "name": "Elliot", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "linkedMemberIds": [68] },
+        { "id": 23, "name": "Orlando Mina", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -156,37 +74,12 @@
       "emoji": "🛡️",
       "color": "lime",
       "members": [
-        {
-          "id": 64,
-          "name": "Javi",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 65,
-          "name": "Pere",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 66,
-          "name": "Tomas",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 67,
-          "name": "Dani",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 68,
-          "name": "Elliot",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-          "linkedMemberIds": [22]
-        },
-        {
-          "id": 69,
-          "name": "Mario",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        }
+        { "id": 64, "name": "Javi", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 65, "name": "Pere", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 66, "name": "Tomas", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 67, "name": "Dani", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 68, "name": "Elliot", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "linkedMemberIds": [22] },
+        { "id": 69, "name": "Mario", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -195,26 +88,10 @@
       "emoji": "✨",
       "color": "fuchsia",
       "members": [
-        {
-          "id": 40,
-          "name": "María Perez",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 41,
-          "name": "Maria Mancilla",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 42,
-          "name": "Raquel",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 43,
-          "name": "Laura Urban",
-          "eligiblePrizeTypeIds": [2, 3, 4, 5, 6, 7, 8, 9]
-        }
+        { "id": 40, "name": "María Perez", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 41, "name": "Maria Mancilla", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 42, "name": "Raquel", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 43, "name": "Laura Urban", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -223,16 +100,8 @@
       "emoji": "🧊",
       "color": "cyan",
       "members": [
-        {
-          "id": 27,
-          "name": "Marc Iglesias",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 28,
-          "name": "Pau Iglesias",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        }
+        { "id": 27, "name": "Marc Iglesias", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 28, "name": "Pau Iglesias", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -241,21 +110,9 @@
       "emoji": "📚",
       "color": "sky",
       "members": [
-        {
-          "id": 33,
-          "name": "Camilo Taba",
-          "eligiblePrizeTypeIds": [2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 34,
-          "name": "Jeronimo",
-          "eligiblePrizeTypeIds": [2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 35,
-          "name": "Francisco Santos",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        }
+        { "id": 33, "name": "Camilo Taba", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 34, "name": "Jeronimo", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 35, "name": "Francisco Santos", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -264,18 +121,10 @@
       "emoji": "🔍",
       "color": "orange",
       "members": [
-        { "id": 36, "name": "Diego", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9], "linkedMemberIds": [47] },
-        { "id": 37, "name": "William", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9], "linkedMemberIds": [63] },
-        {
-          "id": 38,
-          "name": "Eugenio",
-          "eligiblePrizeTypeIds": [2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 39,
-          "name": "Hélène Gormezano",
-          "eligiblePrizeTypeIds": [2, 3, 4, 5, 6, 7, 8, 9]
-        }
+        { "id": 36, "name": "Diego", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "linkedMemberIds": [47] },
+        { "id": 37, "name": "William", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "linkedMemberIds": [63] },
+        { "id": 38, "name": "Eugenio", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 39, "name": "Hélène Gormezano", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -284,9 +133,9 @@
       "emoji": "🌟",
       "color": "yellow",
       "members": [
-        { "id": 44, "name": "Pilar", "eligiblePrizeTypeIds": [6, 7, 8, 9] },
-        { "id": 45, "name": "Vero", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        { "id": 46, "name": "Alex Marín", "eligiblePrizeTypeIds": [3, 7, 8], "linkedMemberIds": [2] }
+        { "id": 44, "name": "Pilar", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 45, "name": "Vero", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 46, "name": "Alex Marín", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 7, 8, 10], "linkedMemberIds": [2] }
       ]
     },
     {
@@ -295,22 +144,9 @@
       "emoji": "🔮",
       "color": "purple",
       "members": [
-        {
-          "id": 24,
-          "name": "Marc Aguado",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-          "linkedMemberIds": [10]
-        },
-        {
-          "id": 25,
-          "name": "Jaume Mora",
-          "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        },
-        {
-          "id": 26,
-          "name": "Daniel Rodriguez",
-          "eligiblePrizeTypeIds": [3, 6, 7, 8, 9]
-        }
+        { "id": 24, "name": "Marc Aguado", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "linkedMemberIds": [10] },
+        { "id": 25, "name": "Jaume Mora", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 26, "name": "Daniel Rodriguez", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }
       ]
     },
     {
@@ -319,43 +155,23 @@
       "emoji": "🤝",
       "color": "teal",
       "members": [
-        { "id": 47, "name": "Diego", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9], "linkedMemberIds": [36] },
-        {
-          "id": 48,
-          "name": "Alejandra Henao",
-          "eligiblePrizeTypeIds": [3, 6, 7, 8, 9]
-        },
-        { "id": 49, "name": "Alixander", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        {
-          "id": 50,
-          "name": "Carlos Tamayo",
-          "eligiblePrizeTypeIds": [3, 6, 7, 8, 9]
-        },
-        {
-          "id": 51,
-          "name": "Cindy Benítez",
-          "eligiblePrizeTypeIds": [3, 6, 7, 8, 9]
-        },
-        {
-          "id": 52,
-          "name": "Esteban Santa",
-          "eligiblePrizeTypeIds": [3, 6, 7, 8, 9]
-        },
-        { "id": 53, "name": "Johan M", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        { "id": 54, "name": "Karol C", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        { "id": 55, "name": "Laura Z", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        { "id": 56, "name": "María V", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        { "id": 57, "name": "Maribel", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        { "id": 58, "name": "Michael Cano", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        {
-          "id": 59,
-          "name": "Moises Cardona",
-          "eligiblePrizeTypeIds": [3, 6, 7, 8, 9]
-        },
-        { "id": 60, "name": "Nelly", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        { "id": 61, "name": "Nuviangi", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        { "id": 62, "name": "Rosana Gomez", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9] },
-        { "id": 63, "name": "William", "eligiblePrizeTypeIds": [3, 6, 7, 8, 9], "linkedMemberIds": [37] }
+        { "id": 47, "name": "Diego", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "linkedMemberIds": [36] },
+        { "id": 48, "name": "Alejandra Henao", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 49, "name": "Alixander", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 50, "name": "Carlos Tamayo", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 51, "name": "Cindy Benítez", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 52, "name": "Esteban Santa", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 53, "name": "Johan M", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 54, "name": "Karol C", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 55, "name": "Laura Z", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 56, "name": "María V", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 57, "name": "Maribel", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 58, "name": "Michael Cano", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 59, "name": "Moises Cardona", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 60, "name": "Nelly", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 61, "name": "Nuviangi", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 62, "name": "Rosana Gomez", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { "id": 63, "name": "William", "eligiblePrizeTypeIds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "linkedMemberIds": [37] }
       ]
     }
   ]
